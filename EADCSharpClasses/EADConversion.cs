@@ -6,7 +6,9 @@
  * Byte Array - Raw - Hexadecimal
  * Code by Harold Feit - Depthstrike.com/Enlist-a-Distro
  * ToDo:
- * Add directional support for Base32 to EAD.Conversion.EADCoreHash
+ * Add directional support for Base32 to:
+ *  EAD.Conversion.EADCoreHash
+ *  EAD.Conversion.HashChanger
  */
 
 using System.Diagnostics;
@@ -31,11 +33,95 @@ namespace EAD
 				// Constants for common torrent sections
 				public const string AnnounceList = "announce-list";
 				public const string WebSeeds = "httpseeds";
+
+				// Constants for file and block sizes
+				public const long ED2KBlockSize = 9728000;
 			}
 		}
 		
 		namespace Conversion
 		{
+
+			public class HashChanger
+			{
+				// Internally stored hash values
+				private string rawhashvalue;
+				private string hexhashvalue;
+				private byte[] bytehashvalue;
+				private string base32value;
+
+				// Byte-Array hash value
+				public byte[] bytehash
+				{
+					get
+					{
+						return bytehashvalue;
+					}
+					set
+					{
+						bytehashvalue = value;
+						hexhashvalue = "";
+						rawhashvalue = "";
+						StringBuilder buff = new StringBuilder();
+						rawhashvalue = System.Text.Encoding.Default.GetString(bytehashvalue);
+						foreach (byte HashByte in bytehashvalue)
+						{
+							buff.AppendFormat("{0:x2}", HashByte);
+						}
+						hexhashvalue = buff.ToString();
+						base32value = EAD.Conversion.Base32.ToBase32String(bytehashvalue);
+					}
+				}
+
+				// Raw text hash value
+				public string rawhash
+				{
+					get
+					{
+						return rawhashvalue;
+					}
+					set
+					{
+						rawhashvalue = value;
+						bytehashvalue = System.Text.Encoding.Default.GetBytes(value);;
+						StringBuilder buff = new StringBuilder();
+						foreach (byte HashByte in bytehashvalue)
+						{
+							buff.AppendFormat("{0:x2}", HashByte);
+						}
+						hexhashvalue = buff.ToString();
+						base32value = EAD.Conversion.Base32.ToBase32String(bytehashvalue);
+					}
+				}
+
+				// Hexadecimal hash value
+				public string hexhash
+				{
+					get
+					{
+						return hexhashvalue;
+					}
+					set
+					{
+						hexhashvalue = value;
+						int spot;
+						bytehashvalue = HexEncoding.GetBytes(hexhashvalue,out spot);
+						rawhashvalue = System.Text.Encoding.Default.GetString(bytehashvalue);
+						base32value = EAD.Conversion.Base32.ToBase32String(bytehashvalue);
+					}
+				}
+
+				// Base32 hash value
+				public string base32
+				{
+					get
+					{
+						return base32value;
+					}
+				}
+
+			}
+			
 			public class EADCoreHash : EAD.CSharp.Constants
 			{
 							

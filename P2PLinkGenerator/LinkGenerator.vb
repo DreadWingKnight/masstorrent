@@ -274,25 +274,25 @@ Public Class LinkGenerator
                     Linkbuild.TigerRaw = linktiger.Value
                 End If
                 If GetMagnet.Checked Then
-                    If Not Linkbuild.TTH = "" And Not Linkbuild.SHA1Hash = "" And Not Linkbuild.ED2KHash = "" Then
+                    If Not Linkbuild.TTH = "" And Not Linkbuild.SHA1Hash = "" And Not Linkbuild.ED2KHex = "" Then
                         LinkOutput = LinkOutput + Linkbuild.MagnetBitPrintHybrid + Chr(13) + Chr(10)
                         HasLinks = True
-                    ElseIf Not Linkbuild.TTH = "" And Not Linkbuild.SHA1Hash = "" And Linkbuild.ED2KHash = "" Then
+                    ElseIf Not Linkbuild.TTH = "" And Not Linkbuild.SHA1Hash = "" And Linkbuild.ED2KHex = "" Then
                         LinkOutput = LinkOutput + Linkbuild.MagnetBitPrint + Chr(13) + Chr(10)
                         HasLinks = True
                     ElseIf Linkbuild.TTH = "" And Not Linkbuild.SHA1Hash = "" Then
                         LinkOutput = LinkOutput + Linkbuild.MagnetSHA1 + Chr(13) + Chr(10)
                         HasLinks = True
-                    ElseIf Linkbuild.TTH = "" And Not Linkbuild.SHA1Hash = "" And Not Linkbuild.ED2KHash = "" Then
+                    ElseIf Linkbuild.TTH = "" And Not Linkbuild.SHA1Hash = "" And Not Linkbuild.ED2KHex = "" Then
                         LinkOutput = LinkOutput + Linkbuild.MagnetSHA1Hybrid + Chr(13) + Chr(10)
                         HasLinks = True
-                    ElseIf Linkbuild.TTH = "" And Linkbuild.SHA1Hash = "" And Not Linkbuild.ED2KHash = "" Then
+                    ElseIf Linkbuild.TTH = "" And Linkbuild.SHA1Hash = "" And Not Linkbuild.ED2KHex = "" Then
                         LinkOutput = LinkOutput + Linkbuild.MagnetED2K + Chr(13) + Chr(10)
                         HasLinks = True
                     End If
                 End If
                 If GetED2K.Checked Then
-                    If Not Linkbuild.ED2KHash = "" Then
+                    If Not Linkbuild.ED2KHex = "" Then
                         LinkOutput = LinkOutput + Linkbuild.ClassicED2KLink + Chr(13) + Chr(10)
                         HasLinks = True
                     End If
@@ -318,25 +318,25 @@ Public Class LinkGenerator
             Linkbuild.FileName = TorrentInfo.Value("name").value
             Linkbuild.FileSize = TorrentInfo.Value("length").value
             If GetMagnet.Checked Then
-                If Not Linkbuild.TTH = "" And Not Linkbuild.SHA1Hash = "" And Not Linkbuild.ED2KHash = "" Then
+                If Not Linkbuild.TTH = "" And Not Linkbuild.SHA1Hash = "" And Not Linkbuild.ED2KHex = "" Then
                     LinkOutput = LinkOutput + Linkbuild.MagnetBitPrintHybrid + Chr(13) + Chr(10)
                     HasLinks = True
-                ElseIf Not Linkbuild.TTH = "" And Not Linkbuild.SHA1Hash = "" And Linkbuild.ED2KHash = "" Then
+                ElseIf Not Linkbuild.TTH = "" And Not Linkbuild.SHA1Hash = "" And Linkbuild.ED2KHex = "" Then
                     LinkOutput = LinkOutput + Linkbuild.MagnetBitPrint + Chr(13) + Chr(10)
                     HasLinks = True
                 ElseIf Linkbuild.TTH = "" And Not Linkbuild.SHA1Hash = "" Then
                     LinkOutput = LinkOutput + Linkbuild.MagnetSHA1 + Chr(13) + Chr(10)
                     HasLinks = True
-                ElseIf Linkbuild.TTH = "" And Not Linkbuild.SHA1Hash = "" And Not Linkbuild.ED2KHash = "" Then
+                ElseIf Linkbuild.TTH = "" And Not Linkbuild.SHA1Hash = "" And Not Linkbuild.ED2KHex = "" Then
                     LinkOutput = LinkOutput + Linkbuild.MagnetSHA1Hybrid + Chr(13) + Chr(10)
                     HasLinks = True
-                ElseIf Linkbuild.TTH = "" And Linkbuild.SHA1Hash = "" And Not Linkbuild.ED2KHash = "" Then
+                ElseIf Linkbuild.TTH = "" And Linkbuild.SHA1Hash = "" And Not Linkbuild.ED2KHex = "" Then
                     LinkOutput = LinkOutput + Linkbuild.MagnetED2K + Chr(13) + Chr(10)
                     HasLinks = True
                 End If
             End If
             If GetED2K.Checked Then
-                If Not Linkbuild.ED2KHash = "" Then
+                If Not Linkbuild.ED2KHex = "" Then
                     LinkOutput = LinkOutput + Linkbuild.ClassicED2KLink + Chr(13) + Chr(10)
                     HasLinks = True
                 End If
