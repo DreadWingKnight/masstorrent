@@ -26,7 +26,7 @@ Public Class TorrentBuild
     Public Shared UseWSAConfig As Boolean = False
     Public Shared DelayMessages As Boolean = True
     Public Shared LocalPath As String
-    Dim TigerHash As New EAD.Cryptography.ThexCS.ThexOptimized
+    Dim TigerHash As New EAD.Cryptography.ThexCS.ThexThreaded
     Dim sha1 As New System.Security.Cryptography.SHA1CryptoServiceProvider
     Dim md5 As New System.Security.Cryptography.MD5CryptoServiceProvider
     Dim md4 As New Mono.Security.Cryptography.MD4Managed
@@ -622,7 +622,7 @@ Public Class TorrentBuild
                     If IncludeTiger.Checked Then
                         Dim FileTiger As New TorrentString
                         Dim TigerRawHash As String
-                        hash = TigerHash.GetTTH(FolderFileName)
+                        hash = TigerHash.GetTTH_Value(FolderFileName)
                         System.Windows.Forms.Application.DoEvents()
                         For Each hashByte In hash
                             TigerRawHash = TigerRawHash + Chr(hashByte)
@@ -930,7 +930,7 @@ nofilesleft:
         If filesize <= 4707319808 Then
             If IncludeTiger.Checked Then
                 HashConverter = New EAD.Conversion.HashChanger
-                HashConverter.bytehash = TigerHash.GetTTH(NameOfFile)
+                HashConverter.bytehash = TigerHash.GetTTH_Value(NameOfFile)
                 System.Windows.Forms.Application.DoEvents()
                 FileTiger.Value = HashConverter.rawhash
                 FileTigerBase32 = HashConverter.base32
@@ -1067,7 +1067,7 @@ nofilesleft:
             If IncludeSHA1.Checked Then
                 Dim sha1make As Integer = FreeFile()
                 FileOpen(sha1make, NameOfFile + ".sha1", OpenMode.Output)
-                PrintLine(sha1make, torrentfilename.Value + " " + filesha1hex)
+                PrintLine(sha1make, torrentfilename.Value + " " + FileSHA1Hex)
                 FileClose(sha1make)
             End If
             If filesize <= 4707319808 Then
@@ -1097,7 +1097,7 @@ nofilesleft:
                 LinkGenerator.ED2KHex = fileed2khex
                 Dim ed2kmake As Integer = FreeFile()
                 FileOpen(ed2kmake, NameOfFile + ".ed2k", OpenMode.Output)
-                PrintLine(ed2kmake, linkgenerator.ClassicED2KLink())
+                PrintLine(ed2kmake, LinkGenerator.ClassicED2KLink())
                 FileClose(ed2kmake)
             End If
         End If
