@@ -49,7 +49,7 @@
                     DebugSymbols = "false"
                     IncrementalBuild = "false"
                     Optimize = "true"
-                    OutputPath = "..\bin\"
+                    OutputPath = "..\bin\multitrackeredit\"
                     RegisterForComInterop = "false"
                     RemoveIntegerChecks = "false"
                     TreatWarningsAsErrors = "false"
@@ -80,7 +80,7 @@
                 <Reference
                     Name = "EADVBClasses"
                     AssemblyName = "EADVBClasses"
-                    HintPath = "..\EADVBClasses\bin\EADVBClasses.dll"
+                    HintPath = "..\bin\EADVBClasses.dll"
                 />
             </References>
             <Imports>
