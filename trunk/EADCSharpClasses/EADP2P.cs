@@ -22,7 +22,9 @@ namespace EAD
 		{
 			private string ED2KRawHash;
 			private string SHA1RawHash;
+			private string SHA1Base32Hash;
 			private string TigerTreeRootRawHash;
+			private string TigerTreeBase32Hash;
 			private string LinkedFilename;
 			private long LinkedFileSize;
 			private const string MagnetPrefix = "magnet:?";
@@ -40,6 +42,7 @@ namespace EAD
 					convertme = new EAD.Conversion.HashChanger();
 					convertme.hexhash = value;
 					SHA1RawHash = convertme.rawhash;
+					SHA1Base32Hash = convertme.base32;
 				}
 				get
 				{
@@ -56,6 +59,7 @@ namespace EAD
 					convertme = new EAD.Conversion.HashChanger();
 					convertme.hexhash = value;
 					TigerTreeRootRawHash = convertme.rawhash;
+					TigerTreeBase32Hash = convertme.base32;
 				}
 				get
 				{
@@ -87,6 +91,9 @@ namespace EAD
 			{
 				set
 				{
+					convertme = new EAD.Conversion.HashChanger();
+					convertme.rawhash = value;
+					SHA1Base32Hash = convertme.base32;
 					SHA1RawHash = value;
 				}
 				get
@@ -99,6 +106,9 @@ namespace EAD
 			{
 				set
 				{
+					convertme = new EAD.Conversion.HashChanger();
+					convertme.rawhash = value;
+					TigerTreeBase32Hash = convertme.base32;
 					TigerTreeRootRawHash = value;
 				}
 				get
@@ -174,9 +184,12 @@ namespace EAD
 			{
 				get
 				{
-					convertme = new EAD.Conversion.HashChanger();
-					convertme.rawhash = SHA1RawHash;
-					return convertme.base32;
+					return SHA1Base32Hash;
+				}
+				set
+				{
+					SHA1Base32Hash = value;
+					SHA1RawHash = null;
 				}
 			}
 			// Tiger Tree
@@ -184,9 +197,12 @@ namespace EAD
 			{
 				get
 				{
-					convertme = new EAD.Conversion.HashChanger();
-					convertme.rawhash = TigerTreeRootRawHash;
-					return convertme.base32;
+					return TigerTreeBase32Hash;
+				}
+				set
+				{
+					TigerTreeBase32Hash = value;
+					TigerTreeRootRawHash = null;
 				}
 			}
 
