@@ -129,7 +129,17 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ThexUnified.cs"
+                    RelPath = "Thex.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ThexOptimized.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ThexThreaded.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
