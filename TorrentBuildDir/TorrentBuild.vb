@@ -1235,7 +1235,9 @@ unlock:
         BlackListedFiles.Add(BlackListCDP)
         BlackListedFiles.Add(BlackListCDT)
         ' moved the above here to troubleshoot blacklisting files issues.
-        LocalPath = System.IO.Path.GetFullPath(".\")
+        Dim FileOffset As Integer
+        FileOffset = Microsoft.VisualBasic.Left(arguments(0), Len(arguments(0))).LastIndexOf("\")
+        LocalPath = System.IO.Path.GetFullPath(Microsoft.VisualBasic.Left(arguments(0), FileOffset)) + "\"
         If System.IO.File.Exists(LocalPath + "tgen.configure") Then
             Dim loadsettings As Integer = FreeFile()
             Dim intermediarysettingdata As String

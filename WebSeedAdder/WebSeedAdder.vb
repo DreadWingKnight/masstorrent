@@ -294,7 +294,10 @@ Public Class WebSeedAdder
     End Sub
 
     Private Sub WebSeedAdder_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        LocalPath = System.IO.Path.GetFullPath(".\")
+        Dim arguments As [String]() = Environment.GetCommandLineArgs()
+        Dim FileOffset As Integer
+        FileOffset = Microsoft.VisualBasic.Left(arguments(0), Len(arguments(0))).LastIndexOf("\")
+        LocalPath = System.IO.Path.GetFullPath(Microsoft.VisualBasic.Left(arguments(0), FileOffset)) + "\"
         If System.IO.File.Exists(LocalPath + "wsa.configure") Then
             Dim loadsettings As Integer = FreeFile()
             Dim intermediarysettingdata As String
@@ -330,7 +333,6 @@ Public Class WebSeedAdder
                 If Not webseed5load.Value = "" Then WebSeeds.Items.Add(webseed5load.Value)
             End If
         End If
-        Dim arguments As [String]() = Environment.GetCommandLineArgs()
         If arguments.GetLength(0) > 1 Then
             TorrentBasePath.Text = arguments(1)
             LoadTorrent(TorrentBasePath.Text)
