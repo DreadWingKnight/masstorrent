@@ -877,16 +877,10 @@ Public Class TorrentMakeMain
         TorrentData.Parse(intermediarytorrentdata)
         MetaDataHolder.Torrent = TorrentData
 
-        If TorrentData.Contains("resume") Then
-            TorrentData.Remove("resume")
-        End If
-        If TorrentData.Contains("tracker_cache") Then
-            TorrentData.Remove("tracker_cache")
-        End If
-        If TorrentData.Contains("torrent filename") Then
-            TorrentData.Remove("torrent filename")
-        End If
-
+        If TorrentData.Contains("resume") Then TorrentData.Remove("resume")
+        If TorrentData.Contains("tracker_cache") Then TorrentData.Remove("tracker_cache")
+        If TorrentData.Contains("torrent filename") Then TorrentData.Remove("torrent filename")
+        
         If NumTrackers.Value = 1 Then
             If TorrentData.Contains("announce-list") Then
                 TorrentData.Remove("announce-list")
