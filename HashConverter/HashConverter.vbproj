@@ -79,8 +79,8 @@
                 />
                 <Reference
                     Name = "EADCSharpClasses"
-                    AssemblyName = "EADCSharpClasses"
-                    HintPath = "..\bin\EADCSharpClasses.dll"
+                    Project = "{77CBC257-AE06-4A85-B2FD-055A8F395502}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
             <Imports>

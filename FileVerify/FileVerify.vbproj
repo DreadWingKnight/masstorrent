@@ -78,14 +78,14 @@
                     AssemblyName = "System.Xml"
                 />
                 <Reference
-                    Name = "EADVBClasses"
-                    AssemblyName = "EADVBClasses"
-                    HintPath = "..\bin\EADVBClasses.dll"
+                    Name = "EADCSharpClasses"
+                    Project = "{77CBC257-AE06-4A85-B2FD-055A8F395502}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
                 <Reference
-                    Name = "EADCSharpClasses"
-                    AssemblyName = "EADCSharpClasses"
-                    HintPath = "..\bin\EADCSharpClasses.dll"
+                    Name = "EADVBClasses"
+                    Project = "{5609C1FE-8034-4E8C-8938-6806043382BD}"
+                    Package = "{F184B08F-C81C-45F6-A57F-5ABD9991F28F}"
                 />
             </References>
             <Imports>
