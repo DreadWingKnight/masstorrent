@@ -49,7 +49,7 @@
                     DebugSymbols = "false"
                     IncrementalBuild = "false"
                     Optimize = "true"
-                    OutputPath = "..\bin\"
+                    OutputPath = "..\bin\p2plinkgenerator\"
                     RegisterForComInterop = "false"
                     RemoveIntegerChecks = "false"
                     TreatWarningsAsErrors = "false"
@@ -80,12 +80,12 @@
                 <Reference
                     Name = "EADCSharpClasses"
                     AssemblyName = "EADCSharpClasses"
-                    HintPath = "..\EADCSharpClasses\bin\Release\EADCSharpClasses.dll"
+                    HintPath = "..\bin\EADCSharpClasses.dll"
                 />
                 <Reference
                     Name = "EADVBClasses"
                     AssemblyName = "EADVBClasses"
-                    HintPath = "..\EADVBClasses\bin\EADVBClasses.dll"
+                    HintPath = "..\bin\EADVBClasses.dll"
                 />
             </References>
             <Imports>
