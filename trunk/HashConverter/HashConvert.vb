@@ -101,15 +101,12 @@ Public Class HashConvert
     End Sub
 
 #End Region
-    Dim Convertme As New EAD.Conversion.EADCoreHash
+    Dim Convertme As New EAD.Conversion.HashChanger
 
     Private Sub ToBase32_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToBase32.Click
-        Convertme = New EAD.Conversion.EADCoreHash
-        Dim ConvertBytes() As Byte
-        Dim ConvertString As String
-        Dim ConvertHex As String = SHA1HexEntry.Text
-        Dim passfail As Boolean = Convertme.HashConvert(ConvertBytes, ConvertString, ConvertHex, EAD.Conversion.EADCoreHash.SourceHex)
-        SHA1Base32Entry.Text = EAD.Conversion.Base32.ToBase32String(ConvertBytes)
+        Convertme = New EAD.Conversion.HashChanger
+        Convertme.hexhash = SHA1HexEntry.Text
+        SHA1Base32Entry.Text = Convertme.base32
     End Sub
 
     Private Sub SHA1HexEntry_LocationChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles SHA1HexEntry.LocationChanged

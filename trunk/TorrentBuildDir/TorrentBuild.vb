@@ -30,7 +30,6 @@ Public Class TorrentBuild
     Dim sha1 As New System.Security.Cryptography.SHA1CryptoServiceProvider
     Dim md5 As New System.Security.Cryptography.MD5CryptoServiceProvider
     Dim md4 As New Mono.Security.Cryptography.MD4Managed
-    Dim ed2ksize As Long = 9500 * 1024
     Dim piecesizetouse As Long
     Dim FileHandling As FileStream
     'Dim urlprocessor As System.Web.HttpServerUtility
@@ -508,8 +507,8 @@ Public Class TorrentBuild
         Dim FileOffsetToHash As Long = 0
         Dim numbytes As Long
         Dim Piecehash As String
-        Dim numpieces As Long = TotalSize / ed2ksize
-        If numpieces * ed2ksize < TotalSize Then numpieces = numpieces + 1
+        Dim numpieces As Long = TotalSize / EAD.VisualBasic.Constants.ED2KBlockSize
+        If numpieces * EAD.VisualBasic.Constants.ED2KBlockSize < TotalSize Then numpieces = numpieces + 1
         Dim hashbytetotal As Long = numpieces * 16
         Dim ED2KCompund(hashbytetotal) As Byte
         Dim currentpos As Long = 0
@@ -517,13 +516,13 @@ Public Class TorrentBuild
         Dim buff As StringBuilder = New StringBuilder
         HashProgress.Value = 0
         FileHandling = File.Open(Filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)
-        If TotalSize > ed2ksize Then
+        If TotalSize > EAD.VisualBasic.Constants.ED2KBlockSize Then
             Dim ed2kcompound As String
             Do
-                Dim LoadData(ed2ksize) As Byte
+                Dim LoadData(EAD.VisualBasic.Constants.ED2KBlockSize) As Byte
                 HashProgress.Value = FileOffsetToHash / TotalSize * 100
                 System.Windows.Forms.Application.DoEvents()
-                numbytes = FileHandling.Read(LoadData, 0, ed2ksize)
+                numbytes = FileHandling.Read(LoadData, 0, EAD.VisualBasic.Constants.ED2KBlockSize)
                 Dim datatohash(numbytes - 1) As Byte
                 For dataindex As Long = 0 To numbytes - 1
                     datatohash(dataindex) = LoadData(dataindex)
@@ -538,10 +537,6 @@ Public Class TorrentBuild
                     ED2KCompund(currentpos) = value
                     currentpos = currentpos + 1
                 Next
-                buff = New StringBuilder
-                For Each hashByte As Byte In advanced
-                    buff.AppendFormat("{0:x2}", hashByte)
-                Next
                 Erase advanced
                 FileOffsetToHash = FileOffsetToHash + numbytes
             Loop Until FileOffsetToHash >= TotalSize
@@ -552,30 +547,23 @@ Public Class TorrentBuild
             Next
 
             Dim fullhash() As Byte = md4.ComputeHash(rehash)
-            buff = New StringBuilder
-            binaryvalue = ""
-            For Each hashByte As Byte In fullhash
-                buff.AppendFormat("{0:x2}", hashByte)
-                binaryvalue = binaryvalue + Chr(hashbyte)
-            Next
-            plaintext = buff.ToString
-
+            Dim Convertme As New EAD.Conversion.HashChanger
+            Convertme.bytehash = fullhash
+            binaryvalue = Convertme.rawhash
+            plaintext = Convertme.hexhash
         Else
-            Dim LoadData(ed2ksize) As Byte
-            numbytes = FileHandling.Read(LoadData, 0, ed2ksize)
+            Dim LoadData(EAD.VisualBasic.Constants.ED2KBlockSize) As Byte
+            numbytes = FileHandling.Read(LoadData, 0, EAD.VisualBasic.Constants.ED2KBlockSize)
             Dim datatohash(numbytes - 1) As Byte
             For dataindex As Long = 0 To numbytes - 1
                 datatohash(dataindex) = LoadData(dataindex)
             Next
             Erase LoadData
             Dim fullhash() As Byte = md4.ComputeHash(datatohash)
-            buff = New StringBuilder
-            binaryvalue = ""
-            For Each hashByte As Byte In fullhash
-                buff.AppendFormat("{0:x2}", hashByte)
-                binaryvalue = binaryvalue + Chr(hashbyte)
-            Next
-            plaintext = buff.ToString
+            Dim Convertme As New EAD.Conversion.HashChanger
+            Convertme.bytehash = fullhash
+            binaryvalue = Convertme.rawhash
+            plaintext = Convertme.hexhash
             Erase datatohash
             HashProgress.Value = 100
         End If
@@ -602,7 +590,6 @@ Public Class TorrentBuild
         Dim torrentMFinfo As New TorrentDictionary
         Dim TorrentFiles As New TorrentList
         Dim TorrentFilesArray As New ArrayList
-        Dim ExternalValuesArray As New ArrayList
         Dim piecesizetouse As Long
         Dim calculatedtotal As Long
         Dim TotalFiles As Long = 0
@@ -615,8 +602,7 @@ Public Class TorrentBuild
                 Dim FilePath As New TorrentList
                 Dim FilePathArray As New ArrayList
                 Dim FilePathName As New TorrentString
-                Dim ExternalFileData As New TorrentDictionary
-
+                
                 FilesSize.Value = FileLen(FolderFileName)
                 TotalSize = TotalSize + FileLen(FolderFileName)
                 If AutomaticPieceSize.Checked Then calculatedtotal = calculatedtotal + FilesSize.Value
@@ -625,18 +611,16 @@ Public Class TorrentBuild
                 FilePath.Value = FilePathArray
                 FileInfo.Add("length", FilesSize)
                 FileInfo.Add("path", FilePath)
-                ExternalFileData.Add("filename", FilePathName)
-                ExternalFileData.Add("size", FilesSize)
 
                 Dim filecheck As FileStream
                 Dim hash As Byte()
                 Dim buff As StringBuilder = New StringBuilder
+                Dim Convertme As EAD.Conversion.HashChanger = New EAD.Conversion.HashChanger
                 Dim hashByte As Byte
 
                 If FilesSize.Value <= 4707319808 Then
                     If IncludeTiger.Checked Then
                         Dim FileTiger As New TorrentString
-                        Dim FileTigerBase32 As New TorrentString
                         Dim TigerRawHash As String
                         hash = TigerHash.GetTTH(FolderFileName)
                         System.Windows.Forms.Application.DoEvents()
@@ -644,12 +628,10 @@ Public Class TorrentBuild
                             TigerRawHash = TigerRawHash + Chr(hashByte)
                         Next
                         FileTiger.Value = TigerRawHash
-                        FileTigerBase32.Value = EAD.Conversion.Base32.ToBase32String(hash)
                         TigerRawHash = ""
                         Erase hash
                         OptionalHashProgress.Value = OptionalHashProgress.Value + 1
                         FileInfo.Add("tiger", FileTiger)
-                        ExternalFileData.Add("tiger", FileTigerBase32)
                     End If
                 Else
                     OptionalHashProgress.Value = OptionalHashProgress.Value + 1
@@ -657,7 +639,6 @@ Public Class TorrentBuild
 
                 If IncludeSHA1.Checked Then
                     Dim filesha1 As New TorrentString
-                    Dim FileSHA1Hex As New TorrentString
                     filecheck = New FileStream(FolderFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)
                     Dim sha1raw As String
                     sha1.ComputeHash(filecheck)
@@ -669,13 +650,11 @@ Public Class TorrentBuild
                         sha1raw = sha1raw + Chr(hashByte)
                     Next
                     filesha1.Value = sha1raw
-                    FileSHA1Hex.Value = buff.ToString
                     buff.Remove(0, buff.Length)
                     sha1raw = ""
                     Erase hash
                     OptionalHashProgress.Value = OptionalHashProgress.Value + 1
                     FileInfo.Add("sha1", filesha1)
-                    ExternalFileData.Add("sha1", FileSHA1Hex)
                 End If
                 If IncludeMD5.Checked Then
                     Dim filemd5 As New TorrentString
@@ -693,7 +672,6 @@ Public Class TorrentBuild
                     Erase hash
                     OptionalHashProgress.Value = OptionalHashProgress.Value + 1
                     FileInfo.Add("md5sum", filemd5)
-                    ExternalFileData.Add("md5", filemd5)
                 End If
                 If IncludeCRC32.Checked Then
                     Dim FileCRC32 As New TorrentString
@@ -706,22 +684,17 @@ Public Class TorrentBuild
                     FileCRC32.Value = String.Format("{0:X8}", crc)
                     OptionalHashProgress.Value = OptionalHashProgress.Value + 1
                     FileInfo.Add("crc32", FileCRC32)
-                    ExternalFileData.Add("crc32", FileCRC32)
                 End If
                 If IncludeED2K.Checked Then
                     Dim fileed2k As New TorrentString
-                    Dim fileed2khex As New TorrentString
                     Dim ed2khashvalue As String
                     Dim ed2kplaintext As String
                     Call GetED2KHash(FolderFileName, ed2kplaintext, ed2khashvalue)
                     OptionalHashProgress.Value = OptionalHashProgress.Value + 1
                     fileed2k.Value = ed2khashvalue
-                    fileed2khex.Value = ed2kplaintext
                     FileInfo.Add("ed2k", fileed2k)
-                    ExternalFileData.Add("ed2k", fileed2khex)
                 End If
                 TorrentFilesArray.Add(FileInfo)
-                ExternalValuesArray.Add(ExternalFileData)
             Else
                 OptionalHashProgress.Maximum = OptionalHashProgress.Maximum - CountMultiplier
             End If
@@ -865,39 +838,36 @@ nofilesleft:
             sfvfilename = Microsoft.VisualBasic.Mid(sfvfilename, 2, Len(sfvfilename) - 1) + ".sfv"
 
             Dim LinkGenerator As New EAD.PeerToPeer.LinkGeneration
-            For Each list As TorrentDictionary In ExternalValuesArray
+            Dim HashConverter As New EAD.Conversion.HashChanger
+            For Each list As TorrentDictionary In TorrentFilesArray
                 LinkGenerator = New EAD.PeerToPeer.LinkGeneration
                 Dim FileNameForCheck As New TorrentString
-                FileNameForCheck = list.Value("filename")
+                For Each filename As TorrentString In list.Value("path").value
+                    FileNameForCheck = filename
+                Next
                 If IncludeMD5.Checked Then
                     Dim md5file As New TorrentString
-                    md5file = list.Value("md5")
+                    md5file = list.Value("md5sum")
                     MD5toMake = MD5toMake + FileNameForCheck.Value + " " + md5file.Value + Chr(13) + Chr(10)
                 End If
                 If IncludeSHA1.Checked Then
-                    Dim sha1file As New TorrentString
-                    sha1file = list.Value("sha1")
-                    SHA1toMake = SHA1toMake + FileNameForCheck.Value + " " + sha1file.Value + Chr(13) + Chr(10)
+                    HashConverter = New EAD.Conversion.HashChanger
+                    HashConverter.rawhash = list.Value("sha1").value
+                    SHA1toMake = SHA1toMake + FileNameForCheck.Value + " " + HashConverter.hexhash + Chr(13) + Chr(10)
                 End If
                 If IncludeTiger.Checked Then
                     If list.Contains("tiger") Then
-                        Dim TigerFile As New TorrentString
-                        TigerFile = list.Value("tiger")
-                        TigerToMake = TigerToMake + FileNameForCheck.Value + " " + TigerFile.Value + Chr(13) + Chr(10)
+                        HashConverter = New EAD.Conversion.HashChanger
+                        HashConverter.rawhash = list.Value("tiger").value
+                        TigerToMake = TigerToMake + FileNameForCheck.Value + " " + HashConverter.base32 + Chr(13) + Chr(10)
                     End If
                 End If
                 If IncludeCRC32.Checked Then
-                    Dim crc32file As New TorrentString
-                    crc32file = list.Value("crc32")
-                    SFVtoMake = SFVtoMake + FileNameForCheck.Value + " " + crc32file.Value + Chr(13) + Chr(10)
+                    SFVtoMake = SFVtoMake + FileNameForCheck.Value + " " + list.Value("crc32").value + Chr(13) + Chr(10)
                 End If
                 If IncludeED2K.Checked Then
-                    Dim ed2kfile As New TorrentString
-                    Dim ed2kfilesize As New TorrentNumber
-                    ed2kfile = list.Value("ed2k")
-                    ed2kfilesize = list.Value("size")
-                    LinkGenerator.ED2KHash = ed2kfile.Value
-                    LinkGenerator.FileSize = ed2kfilesize.Value
+                    LinkGenerator.ED2KRaw = list.Value("ed2k").Value
+                    LinkGenerator.FileSize = list.Value("length").Value
                     LinkGenerator.FileName = FileNameForCheck.Value
                     ED2KtoMake = ED2KtoMake + LinkGenerator.ClassicED2KLink + Chr(13) + Chr(10)
                 End If
@@ -937,7 +907,6 @@ nofilesleft:
                 Print(sfvout, SFVtoMake)
                 FileClose(sfvout)
             End If
-
         End If
         'FileHandling.Close()
     End Sub
@@ -945,69 +914,50 @@ nofilesleft:
     Public Sub MakeTorrentFromFile(ByVal NameOfFile As String)
         Dim filesize As Long = FileLen(NameOfFile)
         Dim filesha1 As New TorrentString
-        Dim filesha1hex As String
         Dim filemd5 As New TorrentString
         Dim fileed2k As New TorrentString
-        Dim fileed2khex As String
         Dim FileCRC32 As New TorrentString
         Dim FileTiger As New TorrentString
-        Dim FileTigerBase32 As String
         Dim filecheck As FileStream
-        Dim hash As Byte()
-        Dim hashByte As Byte
+        Dim fileed2khex As String
+        Dim FileSHA1Hex As String
+        Dim FileTigerBase32 As String
+        Dim ed2khashvalue As String
         Dim buff As StringBuilder = New StringBuilder
+        Dim HashConverter As New EAD.Conversion.HashChanger
         OptionalHashProgress.Maximum = CountMultiplier
         OptionalHashProgress.Value = 0
         If filesize <= 4707319808 Then
             If IncludeTiger.Checked Then
-                Dim TigerRaw As String
-                hash = TigerHash.GetTTH(NameOfFile)
+                HashConverter = New EAD.Conversion.HashChanger
+                HashConverter.bytehash = TigerHash.GetTTH(NameOfFile)
                 System.Windows.Forms.Application.DoEvents()
-                For Each hashByte In hash
-                    TigerRaw = TigerRaw + Chr(hashByte)
-                Next
-                FileTiger.Value = TigerRaw
-                FileTigerBase32 = EAD.Conversion.Base32.ToBase32String(hash)
-                TigerRaw = ""
-                Erase hash
+                FileTiger.Value = HashConverter.rawhash
+                FileTigerBase32 = HashConverter.base32
                 OptionalHashProgress.Value = OptionalHashProgress.Value + 1
             End If
         Else
             OptionalHashProgress.Value = OptionalHashProgress.Value + 1
         End If
         If IncludeSHA1.Checked Then
+            HashConverter = New EAD.Conversion.HashChanger
             filecheck = New FileStream(NameOfFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)
-            Dim sha1raw As String
             sha1.ComputeHash(filecheck)
             filecheck.Close()
             System.Windows.Forms.Application.DoEvents()
-            hash = sha1.Hash
-            For Each hashByte In hash
-                buff.AppendFormat("{0:x2}", hashByte)
-                sha1raw = sha1raw + Chr(hashByte)
-            Next
-            filesha1.Value = sha1raw
-            filesha1hex = buff.ToString
-            buff.Remove(0, buff.Length)
-            Erase hash
+            HashConverter.bytehash = sha1.Hash
+            filesha1.Value = HashConverter.rawhash
+            FileSHA1Hex = HashConverter.hexhash
             OptionalHashProgress.Value = OptionalHashProgress.Value + 1
         End If
         If IncludeMD5.Checked Then
+            HashConverter = New EAD.Conversion.HashChanger
             filecheck = New FileStream(NameOfFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)
-            buff = New StringBuilder
-            Dim md5string As String
             md5.ComputeHash(filecheck)
             filecheck.Close()
-            hash = md5.Hash
+            HashConverter.bytehash = md5.Hash
             System.Windows.Forms.Application.DoEvents()
-            For Each hashByte In hash
-                buff.AppendFormat("{0:x2}", hashByte)
-            Next
-            filemd5.Value = md5string
-            md5string = ""
-            filemd5.Value = buff.ToString
-            buff.Remove(0, buff.Length)
-            Erase hash
+            filemd5.Value = HashConverter.hexhash
             OptionalHashProgress.Value = OptionalHashProgress.Value + 1
         End If
         If IncludeCRC32.Checked Then
@@ -1021,7 +971,6 @@ nofilesleft:
             OptionalHashProgress.Value = OptionalHashProgress.Value + 1
         End If
         If IncludeED2K.Checked Then
-            Dim ed2khashvalue As String
             Call GetED2KHash(NameOfFile, fileed2khex, ed2khashvalue)
             OptionalHashProgress.Value = OptionalHashProgress.Value + 1
             fileed2k.Value = ed2khashvalue
@@ -1142,10 +1091,10 @@ nofilesleft:
                 FileClose(sfvmake)
             End If
             If IncludeED2K.Checked Then
-                Dim linkgenerator As New EAD.PeerToPeer.LinkGeneration
-                linkgenerator.FileName = torrentfilename.Value
-                linkgenerator.FileSize = torrentlength.Value
-                linkgenerator.ED2KHash = fileed2khex
+                Dim LinkGenerator As New EAD.PeerToPeer.LinkGeneration
+                LinkGenerator.FileName = torrentfilename.Value
+                LinkGenerator.FileSize = torrentlength.Value
+                LinkGenerator.ED2KHex = fileed2khex
                 Dim ed2kmake As Integer = FreeFile()
                 FileOpen(ed2kmake, NameOfFile + ".ed2k", OpenMode.Output)
                 PrintLine(ed2kmake, linkgenerator.ClassicED2KLink())
