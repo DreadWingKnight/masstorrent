@@ -42,6 +42,7 @@ Namespace EAD
             Public Const HTTPSAnnounce As Integer = 8
             Public Const UDPAnnounce As Integer = 6
             Public Const InvalidAnnounce As Integer = 0
+            Public Const ED2KBlockSize As Long = 9728000
         End Class
     End Namespace
 End Namespace
