@@ -50,6 +50,11 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "HashConverter", "HashConver
 		{77CBC257-AE06-4A85-B2FD-055A8F395502} = {77CBC257-AE06-4A85-B2FD-055A8F395502}
 	EndProjectSection
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MassAnnounceEdit", "MassAnnounceEdit\MassAnnounceEdit.vbproj", "{B7A4CCED-ADD6-4C43-B866-994EEC3500F8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5609C1FE-8034-4E8C-8938-6806043382BD} = {5609C1FE-8034-4E8C-8938-6806043382BD}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -96,6 +101,10 @@ Global
 		{870899C0-6FEE-486E-A2F2-B0F469EC430B}.Debug.Build.0 = Debug|.NET
 		{870899C0-6FEE-486E-A2F2-B0F469EC430B}.Release.ActiveCfg = Release|.NET
 		{870899C0-6FEE-486E-A2F2-B0F469EC430B}.Release.Build.0 = Release|.NET
+		{B7A4CCED-ADD6-4C43-B866-994EEC3500F8}.Debug.ActiveCfg = Debug|.NET
+		{B7A4CCED-ADD6-4C43-B866-994EEC3500F8}.Debug.Build.0 = Debug|.NET
+		{B7A4CCED-ADD6-4C43-B866-994EEC3500F8}.Release.ActiveCfg = Release|.NET
+		{B7A4CCED-ADD6-4C43-B866-994EEC3500F8}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
