@@ -1119,7 +1119,9 @@ Public Class TorrentMakeMain
         If arguments.GetLength(0) > 1 Then
             TorrentBasePath.Text = arguments(1)
         End If
-        LocalPath = System.IO.Path.GetFullPath(".\")
+        Dim FileOffset As Integer
+        FileOffset = Microsoft.VisualBasic.Left(arguments(0), Len(arguments(0))).LastIndexOf("\")
+        LocalPath = System.IO.Path.GetFullPath(Microsoft.VisualBasic.Left(arguments(0), FileOffset)) + "\"
         If System.IO.File.Exists(LocalPath + "mte.configure") Then
             Dim loadsettings As Integer = FreeFile()
             Dim intermediarysettingdata As String

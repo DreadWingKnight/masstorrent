@@ -334,12 +334,14 @@ Public Class TorrentVerify
         If arguments.GetLength(0) > 1 Then
             TorrentFileToVerify.Text = arguments(1)
         End If
-        LocalPath = System.IO.Path.GetFullPath(".\")
+        Dim FileOffset As Integer
+        FileOffset = Microsoft.VisualBasic.Left(arguments(0), Len(arguments(0))).LastIndexOf("\")
+        LocalPath = System.IO.Path.GetFullPath(Microsoft.VisualBasic.Left(arguments(0), FileOffset)) + "\"
         If System.IO.File.Exists(LocalPath + "FileVerify.configure") Then
             Dim loadsettings As Integer = FreeFile()
             Dim intermediarysettingdata As String
-            FileOpen(loadsettings, LocalPath + "fileverify.configure", OpenMode.Binary, OpenAccess.Read, OpenShare.LockRead)
-            intermediarysettingdata = Space(FileLen(LocalPath + "tgen.configure"))
+            FileOpen(loadsettings, LocalPath + "FileVerify.configure", OpenMode.Binary, OpenAccess.Read, OpenShare.LockRead)
+            intermediarysettingdata = Space(FileLen(LocalPath + "FileVerify.configure"))
             FileGet(loadsettings, intermediarysettingdata)
             FileClose(loadsettings)
             Dim ConfigData As New TorrentDictionary
