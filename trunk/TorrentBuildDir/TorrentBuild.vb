@@ -620,6 +620,7 @@ Public Class TorrentBuild
 
                 If FilesSize.Value <= 4707319808 Then
                     If IncludeTiger.Checked Then
+                        TigerHash = New EAD.Cryptography.ThexCS.ThexThreaded
                         Dim FileTiger As New TorrentString
                         Dim TigerRawHash As String
                         hash = TigerHash.GetTTH_Value(FolderFileName)
@@ -929,6 +930,7 @@ nofilesleft:
         OptionalHashProgress.Value = 0
         If filesize <= 4707319808 Then
             If IncludeTiger.Checked Then
+                TigerHash = New EAD.Cryptography.ThexCS.ThexThreaded
                 HashConverter = New EAD.Conversion.HashChanger
                 HashConverter.bytehash = TigerHash.GetTTH_Value(NameOfFile)
                 System.Windows.Forms.Application.DoEvents()
