@@ -397,8 +397,8 @@ namespace EAD.Cryptography.ThexCS
 		const byte LeafHash = 0x00;
 		const byte InternalHash = 0x01;
 		const int  LeafSize = 1024;
-		const int  DataBlockSize = LeafSize * 1024; // 1 MB
-		const int  ThreadCount = 4;
+		const int  DataBlockSize = LeafSize * 2048; // 2 MB
+		const int  ThreadCount = 2;
 
 		public byte[][][] TTH;
 		public int LevelCount;
