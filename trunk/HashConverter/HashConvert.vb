@@ -34,12 +34,14 @@ Public Class HashConvert
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents SHA1Base32Entry As System.Windows.Forms.TextBox
     Friend WithEvents ToBase32 As System.Windows.Forms.Button
+    Friend WithEvents FromBase32 As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.SHA1HexEntry = New System.Windows.Forms.TextBox
         Me.Label1 = New System.Windows.Forms.Label
         Me.Label2 = New System.Windows.Forms.Label
         Me.SHA1Base32Entry = New System.Windows.Forms.TextBox
         Me.ToBase32 = New System.Windows.Forms.Button
+        Me.FromBase32 = New System.Windows.Forms.Button
         Me.SuspendLayout()
         '
         'SHA1HexEntry
@@ -82,10 +84,19 @@ Public Class HashConvert
         Me.ToBase32.TabIndex = 4
         Me.ToBase32.Text = "Convert to Base32"
         '
+        'FromBase32
+        '
+        Me.FromBase32.Location = New System.Drawing.Point(16, 88)
+        Me.FromBase32.Name = "FromBase32"
+        Me.FromBase32.Size = New System.Drawing.Size(128, 24)
+        Me.FromBase32.TabIndex = 5
+        Me.FromBase32.Text = "Convert From Base32"
+        '
         'HashConvert
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.ClientSize = New System.Drawing.Size(280, 117)
+        Me.Controls.Add(Me.FromBase32)
         Me.Controls.Add(Me.ToBase32)
         Me.Controls.Add(Me.SHA1Base32Entry)
         Me.Controls.Add(Me.Label2)
@@ -112,4 +123,10 @@ Public Class HashConvert
     Private Sub SHA1HexEntry_LocationChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles SHA1HexEntry.LocationChanged
         SHA1HexEntry.Text = Trim(SHA1HexEntry.Text)
     End Sub
+
+    '    Private Sub FromBase32_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FromBase32.Click
+    '        Convertme = New EAD.Conversion.HashChanger
+    '        Convertme.bytehash = EAD.Conversion.Base32b.FromBase32String(SHA1Base32Entry.Text)
+    '        SHA1HexEntry.Text = Convertme.hexhash
+    '    End Sub
 End Class
