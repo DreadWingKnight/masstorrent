@@ -215,9 +215,7 @@ Public Class InternalRenamer
     Dim TorrentInternalName As New TorrentString
     Dim MultiFileTorrent As Boolean = False
     Dim MultiFileFiles As New TorrentList
-
-    Private Sub OpenFileDialog1_FileOk(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles OpenFileDialog1.FileOk
-        TorrentToEdit.Text = OpenFileDialog1.FileName
+    Private Sub LoadTorrent()
         If Not System.IO.File.Exists(TorrentToEdit.Text) Then
             MsgBox("ERROR: Filename is not a valid file", , "WHOOPSIE!")
             Exit Sub
@@ -261,6 +259,11 @@ Public Class InternalRenamer
             SelectedFile.Enabled = False
             ChangeCurrent.Enabled = False
         End If
+    End Sub
+
+    Private Sub OpenFileDialog1_FileOk(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles OpenFileDialog1.FileOk
+        TorrentToEdit.Text = OpenFileDialog1.FileName
+        LoadTorrent()
     End Sub
 
     Private Sub Leave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LeaveNow.Click
@@ -371,6 +374,7 @@ notier:
         Dim arguments As [String]() = Environment.GetCommandLineArgs()
         If arguments.GetLength(0) > 1 Then
             TorrentToEdit.Text = arguments(1)
+            LoadTorrent()
         End If
     End Sub
 End Class
