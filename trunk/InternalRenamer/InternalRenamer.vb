@@ -230,15 +230,9 @@ Public Class InternalRenamer
         FileGet(TorrentFileload, intermediarytorrentdata)
         FileClose(TorrentFileload)
         TorrentData.Parse(intermediarytorrentdata)
-        If TorrentData.Contains("resume") Then
-            TorrentData.Remove("resume")
-        End If
-        If TorrentData.Contains("tracker_cache") Then
-            TorrentData.Remove("tracker_cache")
-        End If
-        If TorrentData.Contains("torrent filename") Then
-            TorrentData.Remove("torrent filename")
-        End If
+        If TorrentData.Contains("resume") Then TorrentData.Remove("resume")
+        If TorrentData.Contains("tracker_cache") Then TorrentData.Remove("tracker_cache")
+        If TorrentData.Contains("torrent filename") Then TorrentData.Remove("torrent filename")
         TorrentDataInfo = TorrentData.Value("info")
         If TorrentDataInfo.Contains("files") Then MultiFileTorrent = True
         TorrentInternalName = TorrentDataInfo.Value("name")
