@@ -3,25 +3,25 @@
         ProjectType = "Local"
         ProductVersion = "7.10.3077"
         SchemaVersion = "2.0"
-        ProjectGuid = "{88DFBAD5-7B6C-4A72-84A7-A3CABD218C3D}"
+        ProjectGuid = "{C7D3CFB1-A31B-4430-917B-B5A1ADF6AE0E}"
     >
         <Build>
             <Settings
-                ApplicationIcon = "icon_done.ico"
+                ApplicationIcon = ""
                 AssemblyKeyContainerName = ""
-                AssemblyName = "TorrentBuild"
+                AssemblyName = "TorrentBuildExtensions"
                 AssemblyOriginatorKeyFile = ""
                 AssemblyOriginatorKeyMode = "None"
                 DefaultClientScript = "JScript"
                 DefaultHTMLPageLayout = "Grid"
                 DefaultTargetSchema = "IE50"
                 DelaySign = "false"
-                OutputType = "WinExe"
+                OutputType = "Library"
                 OptionCompare = "Binary"
                 OptionExplicit = "On"
                 OptionStrict = "Off"
                 RootNamespace = "TorrentBuild"
-                StartupObject = "TorrentBuild.TorrentBuild"
+                StartupObject = "TorrentBuild.(None)"
             >
                 <Config
                     Name = "Debug"
@@ -33,7 +33,7 @@
                     DebugSymbols = "true"
                     IncrementalBuild = "true"
                     Optimize = "false"
-                    OutputPath = "..\bin\"
+                    OutputPath = "bin\"
                     RegisterForComInterop = "false"
                     RemoveIntegerChecks = "false"
                     TreatWarningsAsErrors = "false"
@@ -49,7 +49,7 @@
                     DebugSymbols = "false"
                     IncrementalBuild = "false"
                     Optimize = "true"
-                    OutputPath = "..\bin\torrentbuild\"
+                    OutputPath = "bin\"
                     RegisterForComInterop = "false"
                     RemoveIntegerChecks = "false"
                     TreatWarningsAsErrors = "false"
@@ -66,26 +66,18 @@
                     AssemblyName = "System.Data"
                 />
                 <Reference
-                    Name = "System.Drawing"
-                    AssemblyName = "System.Drawing"
-                />
-                <Reference
-                    Name = "System.Windows.Forms"
-                    AssemblyName = "System.Windows.Forms"
-                />
-                <Reference
                     Name = "System.XML"
                     AssemblyName = "System.Xml"
                 />
                 <Reference
-                    Name = "System.Web"
-                    AssemblyName = "System.Web"
-                    HintPath = "..\..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Web.dll"
+                    Name = "System.Drawing"
+                    AssemblyName = "System.Drawing"
+                    HintPath = "..\..\..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Drawing.dll"
                 />
                 <Reference
-                    Name = "EADCSharpClasses"
-                    Project = "{77CBC257-AE06-4A85-B2FD-055A8F395502}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                    Name = "System.Windows.Forms"
+                    AssemblyName = "System.Windows.Forms"
+                    HintPath = "..\..\..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Windows.Forms.dll"
                 />
                 <Reference
                     Name = "EADVBClasses"
@@ -98,64 +90,13 @@
                 <Import Namespace = "System" />
                 <Import Namespace = "System.Collections" />
                 <Import Namespace = "System.Data" />
-                <Import Namespace = "System.Drawing" />
                 <Import Namespace = "System.Diagnostics" />
-                <Import Namespace = "System.Windows.Forms" />
             </Imports>
         </Build>
         <Files>
             <Include>
                 <File
-                    RelPath = "AdvancedConfiguration.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "AdvancedConfiguration.resx"
-                    DependentUpon = "AdvancedConfiguration.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "AssemblyInfo.vb"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ChangeBlacklistedFiles.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ChangeBlacklistedFiles.resx"
-                    DependentUpon = "ChangeBlacklistedFiles.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "icon_done.ico"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "MultiTrackerGenerator.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "MultiTrackerGenerator.resx"
-                    DependentUpon = "MultiTrackerGenerator.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "TorrentBuild.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "TorrentBuild.resx"
-                    DependentUpon = "TorrentBuild.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "TorrentGenFamily.vb"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

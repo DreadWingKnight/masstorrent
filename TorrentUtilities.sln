@@ -55,6 +55,58 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MassAnnounceEdit", "MassAnn
 		{5609C1FE-8034-4E8C-8938-6806043382BD} = {5609C1FE-8034-4E8C-8938-6806043382BD}
 	EndProjectSection
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WebSeedDaemon", "WebSeedDaemon\WebSeedDaemon.vbproj", "{0819CFAC-66DD-4EA9-8DEE-3CA313A5438D}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "G2SourceSupplier", "G2SourceSupplier\G2SourceSupplier.vbproj", "{5EC800C1-DB93-42A3-97DF-7C54CA0C3659}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "CustomMultiTracker", "CustomMultiTracker\CustomMultiTracker.vbproj", "{E0E16AF1-530A-445A-B850-2DCBB9BFFCF9}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "G2SourceDatabase", "G2SourceDatabase\G2SourceDatabase.vbproj", "{A8A1768C-8213-4EB7-868F-ACC82B6A959A}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "PrivateNoDHT", "PrivateNoDHT\PrivateNoDHT.vbproj", "{A632B5D8-C313-474F-ACBA-642225065215}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "EncodingToGBK", "EncodingToGBK\EncodingToGBK.vbproj", "{A26FA04F-DD55-46C3-80E6-328C0B810D5F}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Tracker.Announce", "Tracker.Announce\Tracker.Announce.vbproj", "{380C78F5-F80E-45B2-B285-CC49A61A0B6F}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "TrackerCommon", "TrackerCommon\TrackerCommon.vbproj", "{C3FAB848-1F6F-454B-963A-D7402FAE79B7}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Tracker.Scrape", "Tracker.Scrape\Tracker.Scrape.vbproj", "{9F3BFC8F-7E97-4CBB-819F-A2097C6469ED}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "CustomMultiTrackerGUI", "CustomMultiTrackerGUI\CustomMultiTrackerGUI.vbproj", "{C8362520-CDB7-479A-902B-5FDDEF31A846}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "BEncode_Merge", "BEncode_Merge\BEncode_Merge.vbproj", "{AFFEEE39-8909-4046-A1BE-DCC779BF16D9}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DeadTorrentRemover", "DeadTorrentRemover\DeadTorrentRemover.vbproj", "{60C11EFB-A2B0-4407-B26A-98A6A246F1C2}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "TorrentContentCleaner", "TorrentContentCleaner\TorrentContentCleaner.vbproj", "{559B5723-FEC2-4641-8A5F-781A56A85A46}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -85,12 +137,12 @@ Global
 		{AA1617A2-CA1B-40AE-A8F5-F04A34C953D1}.Debug.Build.0 = Debug|.NET
 		{AA1617A2-CA1B-40AE-A8F5-F04A34C953D1}.Release.ActiveCfg = Release|.NET
 		{AA1617A2-CA1B-40AE-A8F5-F04A34C953D1}.Release.Build.0 = Release|.NET
-		{77CBC257-AE06-4A85-B2FD-055A8F395502}.Debug.ActiveCfg = Release|.NET
-		{77CBC257-AE06-4A85-B2FD-055A8F395502}.Debug.Build.0 = Release|.NET
+		{77CBC257-AE06-4A85-B2FD-055A8F395502}.Debug.ActiveCfg = Debug|.NET
+		{77CBC257-AE06-4A85-B2FD-055A8F395502}.Debug.Build.0 = Debug|.NET
 		{77CBC257-AE06-4A85-B2FD-055A8F395502}.Release.ActiveCfg = Release|.NET
 		{77CBC257-AE06-4A85-B2FD-055A8F395502}.Release.Build.0 = Release|.NET
-		{5609C1FE-8034-4E8C-8938-6806043382BD}.Debug.ActiveCfg = Release|.NET
-		{5609C1FE-8034-4E8C-8938-6806043382BD}.Debug.Build.0 = Release|.NET
+		{5609C1FE-8034-4E8C-8938-6806043382BD}.Debug.ActiveCfg = Debug|.NET
+		{5609C1FE-8034-4E8C-8938-6806043382BD}.Debug.Build.0 = Debug|.NET
 		{5609C1FE-8034-4E8C-8938-6806043382BD}.Release.ActiveCfg = Release|.NET
 		{5609C1FE-8034-4E8C-8938-6806043382BD}.Release.Build.0 = Release|.NET
 		{D74A1426-A74B-4AB6-974C-F8715684A60F}.Debug.ActiveCfg = Debug|.NET
@@ -105,6 +157,58 @@ Global
 		{B7A4CCED-ADD6-4C43-B866-994EEC3500F8}.Debug.Build.0 = Debug|.NET
 		{B7A4CCED-ADD6-4C43-B866-994EEC3500F8}.Release.ActiveCfg = Release|.NET
 		{B7A4CCED-ADD6-4C43-B866-994EEC3500F8}.Release.Build.0 = Release|.NET
+		{0819CFAC-66DD-4EA9-8DEE-3CA313A5438D}.Debug.ActiveCfg = Debug|.NET
+		{0819CFAC-66DD-4EA9-8DEE-3CA313A5438D}.Debug.Build.0 = Debug|.NET
+		{0819CFAC-66DD-4EA9-8DEE-3CA313A5438D}.Release.ActiveCfg = Release|.NET
+		{0819CFAC-66DD-4EA9-8DEE-3CA313A5438D}.Release.Build.0 = Release|.NET
+		{5EC800C1-DB93-42A3-97DF-7C54CA0C3659}.Debug.ActiveCfg = Debug|.NET
+		{5EC800C1-DB93-42A3-97DF-7C54CA0C3659}.Debug.Build.0 = Debug|.NET
+		{5EC800C1-DB93-42A3-97DF-7C54CA0C3659}.Release.ActiveCfg = Release|.NET
+		{5EC800C1-DB93-42A3-97DF-7C54CA0C3659}.Release.Build.0 = Release|.NET
+		{E0E16AF1-530A-445A-B850-2DCBB9BFFCF9}.Debug.ActiveCfg = Debug|.NET
+		{E0E16AF1-530A-445A-B850-2DCBB9BFFCF9}.Debug.Build.0 = Debug|.NET
+		{E0E16AF1-530A-445A-B850-2DCBB9BFFCF9}.Release.ActiveCfg = Release|.NET
+		{E0E16AF1-530A-445A-B850-2DCBB9BFFCF9}.Release.Build.0 = Release|.NET
+		{A8A1768C-8213-4EB7-868F-ACC82B6A959A}.Debug.ActiveCfg = Debug|.NET
+		{A8A1768C-8213-4EB7-868F-ACC82B6A959A}.Debug.Build.0 = Debug|.NET
+		{A8A1768C-8213-4EB7-868F-ACC82B6A959A}.Release.ActiveCfg = Release|.NET
+		{A8A1768C-8213-4EB7-868F-ACC82B6A959A}.Release.Build.0 = Release|.NET
+		{A632B5D8-C313-474F-ACBA-642225065215}.Debug.ActiveCfg = Debug|.NET
+		{A632B5D8-C313-474F-ACBA-642225065215}.Debug.Build.0 = Debug|.NET
+		{A632B5D8-C313-474F-ACBA-642225065215}.Release.ActiveCfg = Release|.NET
+		{A632B5D8-C313-474F-ACBA-642225065215}.Release.Build.0 = Release|.NET
+		{A26FA04F-DD55-46C3-80E6-328C0B810D5F}.Debug.ActiveCfg = Debug|.NET
+		{A26FA04F-DD55-46C3-80E6-328C0B810D5F}.Debug.Build.0 = Debug|.NET
+		{A26FA04F-DD55-46C3-80E6-328C0B810D5F}.Release.ActiveCfg = Release|.NET
+		{A26FA04F-DD55-46C3-80E6-328C0B810D5F}.Release.Build.0 = Release|.NET
+		{380C78F5-F80E-45B2-B285-CC49A61A0B6F}.Debug.ActiveCfg = Debug|.NET
+		{380C78F5-F80E-45B2-B285-CC49A61A0B6F}.Debug.Build.0 = Debug|.NET
+		{380C78F5-F80E-45B2-B285-CC49A61A0B6F}.Release.ActiveCfg = Release|.NET
+		{380C78F5-F80E-45B2-B285-CC49A61A0B6F}.Release.Build.0 = Release|.NET
+		{C3FAB848-1F6F-454B-963A-D7402FAE79B7}.Debug.ActiveCfg = Debug|.NET
+		{C3FAB848-1F6F-454B-963A-D7402FAE79B7}.Debug.Build.0 = Debug|.NET
+		{C3FAB848-1F6F-454B-963A-D7402FAE79B7}.Release.ActiveCfg = Release|.NET
+		{C3FAB848-1F6F-454B-963A-D7402FAE79B7}.Release.Build.0 = Release|.NET
+		{9F3BFC8F-7E97-4CBB-819F-A2097C6469ED}.Debug.ActiveCfg = Debug|.NET
+		{9F3BFC8F-7E97-4CBB-819F-A2097C6469ED}.Debug.Build.0 = Debug|.NET
+		{9F3BFC8F-7E97-4CBB-819F-A2097C6469ED}.Release.ActiveCfg = Release|.NET
+		{9F3BFC8F-7E97-4CBB-819F-A2097C6469ED}.Release.Build.0 = Release|.NET
+		{C8362520-CDB7-479A-902B-5FDDEF31A846}.Debug.ActiveCfg = Debug|.NET
+		{C8362520-CDB7-479A-902B-5FDDEF31A846}.Debug.Build.0 = Debug|.NET
+		{C8362520-CDB7-479A-902B-5FDDEF31A846}.Release.ActiveCfg = Release|.NET
+		{C8362520-CDB7-479A-902B-5FDDEF31A846}.Release.Build.0 = Release|.NET
+		{AFFEEE39-8909-4046-A1BE-DCC779BF16D9}.Debug.ActiveCfg = Debug|.NET
+		{AFFEEE39-8909-4046-A1BE-DCC779BF16D9}.Debug.Build.0 = Debug|.NET
+		{AFFEEE39-8909-4046-A1BE-DCC779BF16D9}.Release.ActiveCfg = Release|.NET
+		{AFFEEE39-8909-4046-A1BE-DCC779BF16D9}.Release.Build.0 = Release|.NET
+		{60C11EFB-A2B0-4407-B26A-98A6A246F1C2}.Debug.ActiveCfg = Debug|.NET
+		{60C11EFB-A2B0-4407-B26A-98A6A246F1C2}.Debug.Build.0 = Debug|.NET
+		{60C11EFB-A2B0-4407-B26A-98A6A246F1C2}.Release.ActiveCfg = Release|.NET
+		{60C11EFB-A2B0-4407-B26A-98A6A246F1C2}.Release.Build.0 = Release|.NET
+		{559B5723-FEC2-4641-8A5F-781A56A85A46}.Debug.ActiveCfg = Debug|.NET
+		{559B5723-FEC2-4641-8A5F-781A56A85A46}.Debug.Build.0 = Debug|.NET
+		{559B5723-FEC2-4641-8A5F-781A56A85A46}.Release.ActiveCfg = Release|.NET
+		{559B5723-FEC2-4641-8A5F-781A56A85A46}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

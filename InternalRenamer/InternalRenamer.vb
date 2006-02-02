@@ -273,6 +273,7 @@ Public Class InternalRenamer
     Private Sub SaveOverWrite_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SaveOverWrite.Click
         If MsgBox("Are you sure you want to overwrite your existing torrent?" + Chr(10) + "This will replace the existing torrent AND will change the infohash.", MsgBoxStyle.YesNo, "Confirmation") = MsgBoxResult.Yes Then
             TorrentInternalName.Value = InternalName.Text
+            If TorrentDataInfo.Contains("name.utf-8") Then TorrentDataInfo.Value("name.utf-8") = TorrentInternalName
             If MultiFileTorrent Then MultiFileReEnter()
             TorrentData.Value("info") = TorrentDataInfo
             Dim fulltorrent As String = TorrentData.Bencoded
@@ -295,6 +296,7 @@ Public Class InternalRenamer
         SaveFileDialog1.ShowDialog()
         TorrentInternalName.Value = InternalName.Text
         If MultiFileTorrent Then MultiFileReEnter()
+        If TorrentDataInfo.Contains("name.utf-8") Then TorrentDataInfo.Value("name.utf-8") = TorrentInternalName
         TorrentData.Value("info") = TorrentDataInfo
         Dim fulltorrent As String = TorrentData.Bencoded
         If Not LCase(Microsoft.VisualBasic.Right(SaveFileDialog1.FileName, 8)) = ".torrent" Then
@@ -334,6 +336,7 @@ Public Class InternalRenamer
         SelectedFile.Text = Replace(SelectedFile.Text, "/", "\")
         InternalFileNames.Items.Item(InternalFileNames.SelectedIndex) = SelectedFile.Text
     End Sub
+
     Sub MultiFileReEnter()
         Dim MultiFileFileList As New TorrentList
         MultiFileFiles = TorrentDataInfo.Value("files")
@@ -363,6 +366,7 @@ notier:
         Dim y As Integer = 0
         For Each FileDictionary As TorrentDictionary In MultiFileFiles
             FileDictionary.Value("path") = FileNamesArray(y)
+            If FileDictionary.Contains("path.utf-8") Then FileDictionary.Value("path.utf-8") = FileNamesArray(y)
             NewFileArrayList.Add(FileDictionary)
             y = y + 1
         Next

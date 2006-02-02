@@ -280,7 +280,7 @@ Public Class LinkGenerator
                     ElseIf Not Linkbuild.TTH = "" And Not Linkbuild.SHA1Hash = "" And Linkbuild.ED2KHex = "" Then
                         LinkOutput = LinkOutput + Linkbuild.MagnetBitPrint + Chr(13) + Chr(10)
                         HasLinks = True
-                    ElseIf Linkbuild.TTH = "" And Not Linkbuild.SHA1Hash = "" Then
+                    ElseIf Linkbuild.TTH = "" And Not Linkbuild.SHA1Hash = "" And Linkbuild.ED2KHex = "" Then
                         LinkOutput = LinkOutput + Linkbuild.MagnetSHA1 + Chr(13) + Chr(10)
                         HasLinks = True
                     ElseIf Linkbuild.TTH = "" And Not Linkbuild.SHA1Hash = "" And Not Linkbuild.ED2KHex = "" Then
@@ -303,6 +303,10 @@ Public Class LinkGenerator
             Dim LinkED2K As New TorrentString
             Dim LinkSHA1 As New TorrentString
             Dim LinkTiger As New TorrentString
+            Dim sha1 As New System.Security.Cryptography.SHA1CryptoServiceProvider
+            'Dim LinkBTIHBytes() As Byte
+            'LinkBTIHBytes = System.Text.Encoding.Default.GetBytes(TorrentInfo.Bencoded)
+            'Linkbuild.BTInfoBytes = sha1.ComputeHash(LinkBTIHBytes)
             If TorrentInfo.Contains("ed2k") Then
                 LinkED2K = TorrentInfo.Value("ed2k")
                 Linkbuild.ED2KRaw = LinkED2K.Value
@@ -319,19 +323,19 @@ Public Class LinkGenerator
             Linkbuild.FileSize = TorrentInfo.Value("length").value
             If GetMagnet.Checked Then
                 If Not Linkbuild.TTH = "" And Not Linkbuild.SHA1Hash = "" And Not Linkbuild.ED2KHex = "" Then
-                    LinkOutput = LinkOutput + Linkbuild.MagnetBitPrintHybrid + Chr(13) + Chr(10)
+                    LinkOutput = LinkOutput + Linkbuild.MagnetFull + Chr(13) + Chr(10)
                     HasLinks = True
                 ElseIf Not Linkbuild.TTH = "" And Not Linkbuild.SHA1Hash = "" And Linkbuild.ED2KHex = "" Then
-                    LinkOutput = LinkOutput + Linkbuild.MagnetBitPrint + Chr(13) + Chr(10)
+                    LinkOutput = LinkOutput + Linkbuild.MagnetBitPrintBTIH + Chr(13) + Chr(10)
                     HasLinks = True
-                ElseIf Linkbuild.TTH = "" And Not Linkbuild.SHA1Hash = "" Then
-                    LinkOutput = LinkOutput + Linkbuild.MagnetSHA1 + Chr(13) + Chr(10)
+                ElseIf Linkbuild.TTH = "" And Not Linkbuild.SHA1Hash = "" And Linkbuild.ED2KHex = "" Then
+                    LinkOutput = LinkOutput + Linkbuild.MagnetSHA1BTIH + Chr(13) + Chr(10)
                     HasLinks = True
                 ElseIf Linkbuild.TTH = "" And Not Linkbuild.SHA1Hash = "" And Not Linkbuild.ED2KHex = "" Then
-                    LinkOutput = LinkOutput + Linkbuild.MagnetSHA1Hybrid + Chr(13) + Chr(10)
+                    LinkOutput = LinkOutput + Linkbuild.MagnetSHA1ED2KBTIH + Chr(13) + Chr(10)
                     HasLinks = True
                 ElseIf Linkbuild.TTH = "" And Linkbuild.SHA1Hash = "" And Not Linkbuild.ED2KHex = "" Then
-                    LinkOutput = LinkOutput + Linkbuild.MagnetED2K + Chr(13) + Chr(10)
+                    LinkOutput = LinkOutput + Linkbuild.MagnetED2KBTIH + Chr(13) + Chr(10)
                     HasLinks = True
                 End If
             End If

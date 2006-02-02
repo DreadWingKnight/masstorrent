@@ -7,7 +7,7 @@
 ' ToDo
 ' - Add support for all multitracker variants.
 '--------------------------------------------------------
-Imports EAD.torrent
+Imports EAD.Torrent
 Imports EAD.Torrent.Announces
 
 Public Class TorrentMakeMain
