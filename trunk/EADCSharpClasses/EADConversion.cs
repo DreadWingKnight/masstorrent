@@ -42,6 +42,21 @@ namespace EAD
 		namespace Conversion
 		{
 
+			public class PortToByte
+			{
+				public int iPort;
+				private byte[] pTempCompact;
+				public byte[] pCompact
+				{
+					get
+					{
+						pTempCompact[0] = (byte)( ( iPort & 0xFF00 ) >> 8 );
+						pTempCompact[1] = (byte)( iPort & 0xFF );
+						return pTempCompact;
+					}
+				}
+			}
+
 			public class HashChanger
 			{
 				// Internally stored hash values

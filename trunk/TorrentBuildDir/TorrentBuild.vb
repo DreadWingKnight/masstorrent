@@ -35,6 +35,8 @@ Public Class TorrentBuild
     'Dim urlprocessor As System.Web.HttpServerUtility
     Public Shared CountMultiplier As Integer
     Public Shared BlackListedFiles As New ArrayList
+    Dim Advanced As New AdvancedConfiguration
+    Dim Multitracker As New MultiTrackerGenerator
 
 #Region " Windows Form Designer generated code "
 
@@ -99,6 +101,9 @@ Public Class TorrentBuild
     Friend WithEvents HashProgress As System.Windows.Forms.ProgressBar
     Friend WithEvents MakeExternals As System.Windows.Forms.CheckBox
     Friend WithEvents IncludeTiger As System.Windows.Forms.CheckBox
+    Friend WithEvents PrivateTorrent As System.Windows.Forms.CheckBox
+    Friend WithEvents MultiTrackerEnabled As System.Windows.Forms.CheckBox
+    Friend WithEvents MultiTrackerSettings As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(TorrentBuild))
         Me.FileNameToMake = New System.Windows.Forms.TextBox
@@ -136,6 +141,9 @@ Public Class TorrentBuild
         Me.HashProgress = New System.Windows.Forms.ProgressBar
         Me.MakeExternals = New System.Windows.Forms.CheckBox
         Me.IncludeTiger = New System.Windows.Forms.CheckBox
+        Me.PrivateTorrent = New System.Windows.Forms.CheckBox
+        Me.MultiTrackerEnabled = New System.Windows.Forms.CheckBox
+        Me.MultiTrackerSettings = New System.Windows.Forms.Button
         Me.SuspendLayout()
         '
         'FileNameToMake
@@ -188,7 +196,7 @@ Public Class TorrentBuild
         '
         Me.Label3.Location = New System.Drawing.Point(0, 144)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(504, 16)
+        Me.Label3.Size = New System.Drawing.Size(376, 16)
         Me.Label3.TabIndex = 5
         Me.Label3.Text = "Announce URL"
         '
@@ -196,7 +204,7 @@ Public Class TorrentBuild
         '
         Me.AnnounceURL.Location = New System.Drawing.Point(0, 160)
         Me.AnnounceURL.Name = "AnnounceURL"
-        Me.AnnounceURL.Size = New System.Drawing.Size(504, 20)
+        Me.AnnounceURL.Size = New System.Drawing.Size(376, 20)
         Me.AnnounceURL.TabIndex = 6
         Me.AnnounceURL.Text = ""
         '
@@ -218,7 +226,7 @@ Public Class TorrentBuild
         '
         'BuildTorrentNow
         '
-        Me.BuildTorrentNow.Location = New System.Drawing.Point(360, 264)
+        Me.BuildTorrentNow.Location = New System.Drawing.Point(360, 272)
         Me.BuildTorrentNow.Name = "BuildTorrentNow"
         Me.BuildTorrentNow.Size = New System.Drawing.Size(144, 24)
         Me.BuildTorrentNow.TabIndex = 9
@@ -408,6 +416,30 @@ Public Class TorrentBuild
         Me.IncludeTiger.TabIndex = 32
         Me.IncludeTiger.Text = "Tiger"
         '
+        'PrivateTorrent
+        '
+        Me.PrivateTorrent.Location = New System.Drawing.Point(400, 224)
+        Me.PrivateTorrent.Name = "PrivateTorrent"
+        Me.PrivateTorrent.Size = New System.Drawing.Size(104, 16)
+        Me.PrivateTorrent.TabIndex = 33
+        Me.PrivateTorrent.Text = "Private Torrent"
+        '
+        'MultiTrackerEnabled
+        '
+        Me.MultiTrackerEnabled.Location = New System.Drawing.Point(376, 144)
+        Me.MultiTrackerEnabled.Name = "MultiTrackerEnabled"
+        Me.MultiTrackerEnabled.Size = New System.Drawing.Size(128, 16)
+        Me.MultiTrackerEnabled.TabIndex = 34
+        Me.MultiTrackerEnabled.Text = "Multitracker Torrent"
+        '
+        'MultiTrackerSettings
+        '
+        Me.MultiTrackerSettings.Location = New System.Drawing.Point(376, 160)
+        Me.MultiTrackerSettings.Name = "MultiTrackerSettings"
+        Me.MultiTrackerSettings.Size = New System.Drawing.Size(128, 24)
+        Me.MultiTrackerSettings.TabIndex = 35
+        Me.MultiTrackerSettings.Text = "Multitracker Settings"
+        '
         'TorrentBuild
         '
         Me.AcceptButton = Me.BuildTorrentNow
@@ -415,6 +447,9 @@ Public Class TorrentBuild
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.CancelButton = Me.ExitWithSave
         Me.ClientSize = New System.Drawing.Size(506, 447)
+        Me.Controls.Add(Me.MultiTrackerSettings)
+        Me.Controls.Add(Me.MultiTrackerEnabled)
+        Me.Controls.Add(Me.PrivateTorrent)
         Me.Controls.Add(Me.IncludeTiger)
         Me.Controls.Add(Me.MakeExternals)
         Me.Controls.Add(Me.HashProgress)
@@ -810,7 +845,19 @@ nofilesleft:
         End If
 
         TorrentMeta.Add("announce", torrentannounce)
+        If PrivateTorrent.Checked Then
+            Dim TorrentIsPrivate As New TorrentNumber
+            TorrentIsPrivate.Value = 1
+            torrentMFinfo.Value("private") = TorrentIsPrivate
+        End If
         TorrentMeta.Add("info", torrentMFinfo)
+        Dim torrentencoding As New TorrentString
+        torrentencoding.Value = "UTF8"
+        TorrentMeta.Add("encoding", torrentencoding)
+        If MultiTrackerEnabled.Checked Then
+            CheckMultitTrackerTiers()
+            TorrentMeta.Add("announce-list", Multitracker.MultiTrackerTiers)
+        End If
         If File.Exists(torrentfilegenerate) Then Kill(torrentfilegenerate)
         Dim torrentout As Integer = FreeFile()
         FileOpen(torrentout, torrentfilegenerate, OpenMode.Binary, OpenAccess.ReadWrite, OpenShare.LockReadWrite)
@@ -871,6 +918,7 @@ nofilesleft:
                     LinkGenerator.FileSize = list.Value("length").Value
                     LinkGenerator.FileName = FileNameForCheck.Value
                     ED2KtoMake = ED2KtoMake + LinkGenerator.ClassicED2KLink + Chr(13) + Chr(10)
+                    ED2KtoMake = ED2KtoMake + FileNameForCheck.Value + " " + LinkGenerator.ED2KHex + Chr(13) + Chr(10)
                 End If
             Next
             If IncludeMD5.Checked Then
@@ -1034,6 +1082,10 @@ nofilesleft:
         torrentinfo.Add("name", torrentfilename)
         torrentinfo.Add("pieces", torrentpieces)
         torrentinfo.Add("piece length", torrentpiecelength)
+        If MultiTrackerEnabled.Checked Then
+            CheckMultitTrackerTiers()
+            torrentroot.Add("announce-list", Multitracker.MultiTrackerTiers)
+        End If
         If IncludeSHA1.Checked Then torrentinfo.Add("sha1", filesha1)
         If IncludeMD5.Checked Then torrentinfo.Add("md5sum", filemd5)
         If IncludeCRC32.Checked Then torrentinfo.Add("crc32", FileCRC32)
@@ -1056,6 +1108,11 @@ nofilesleft:
             torrentroot.Add("comment", CommentOfTorrent)
         End If
 
+        If PrivateTorrent.Checked Then
+            Dim TorrentIsPrivate As New TorrentNumber
+            TorrentIsPrivate.Value = 1
+            torrentinfo.Value("private") = TorrentIsPrivate
+        End If
         torrentroot.Add("info", torrentinfo)
         torrentroot.Add("announce", torrentannounce)
         torrentroot.Add("encoding", torrentencoding)
@@ -1100,6 +1157,7 @@ nofilesleft:
                 Dim ed2kmake As Integer = FreeFile()
                 FileOpen(ed2kmake, NameOfFile + ".ed2k", OpenMode.Output)
                 PrintLine(ed2kmake, LinkGenerator.ClassicED2KLink())
+                PrintLine(ed2kmake, (torrentfilename.Value + " " + LinkGenerator.ED2KHex + Chr(13) + Chr(10)))
                 FileClose(ed2kmake)
             End If
         End If
@@ -1271,6 +1329,15 @@ unlock:
                 BlackListNames = ConfigData.Value("blacklist")
                 BlackListedFiles = BlackListNames.Value
             End If
+            If ConfigData.Contains("multitracker") Then
+                Multitracker.MultiTrackerTiers = ConfigData.Value("multitracker")
+                Multitracker.UpdateInput()
+            End If
+            If ConfigData.Contains("usemultitracker") Then
+                Dim GetMultiTracker As New TorrentNumber
+                GetMultiTracker = ConfigData.Value("usemultitracker")
+                MultiTrackerEnabled.Checked = GetMultiTracker.Value
+            End If
             AutoPiece = ConfigData.Value("autopiece")
             AutomaticPieceSize.Checked = AutoPiece.Value
             AnnounceURL.Text = TrackerAnnounce.Value
@@ -1319,6 +1386,7 @@ unlock:
         Dim EnableDelayCfg As New TorrentNumber
         Dim BlackListNames As New TorrentList
         Dim UseComment As New TorrentString
+        Dim UseMultiTracker As New TorrentNumber
         BlackListNames.Value = BlackListedFiles
         VerboseGenerate.Value = GenerateVerbose
         UseWSASettings.Value = UseWSAConfig
@@ -1337,6 +1405,7 @@ unlock:
         genextra.Value = MakeExternals.Checked
         AutoPiece.Value = AutomaticPieceSize.Checked
         UseComment.Value = Trim(TorrentComment.Text)
+        UseMultiTracker.Value = MultiTrackerEnabled.Checked
         Dim SaveData As New TorrentDictionary
         Dim blacklistblank As New TorrentNumber
         Dim blanktorrentlist As New TorrentList
@@ -1347,6 +1416,11 @@ unlock:
         Else
             blacklistblank.Value = True
         End If
+        If Not Multitracker.MultiTrackerTiers.Bencoded = blanktorrentlist.Bencoded Then
+            CheckMultitTrackerTiers()
+            SaveData.Add("multitracker", Multitracker.MultiTrackerTiers)
+        End If
+        SaveData.Add("usemultitracker", UseMultiTracker)
         SaveData.Add("blankblacklist", blacklistblank)
         SaveData.Add("advanced", advancedsettings)
         SaveData.Add("tracker", TrackerAnnounce)
@@ -1374,5 +1448,27 @@ unlock:
 
     Private Sub FileNameToMake_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles FileNameToMake.DragDrop
         FileNameToMake.Text = e.Data.GetData("System.String", False)
+    End Sub
+
+    Private Sub MultiTrackerSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MultiTrackerSettings.Click
+        Dim SaveTiers As New EAD.Torrent.TorrentList
+        SaveTiers = Multitracker.MultiTrackerTiers
+        Multitracker = New MultiTrackerGenerator
+        Multitracker.MultiTrackerTiers = SaveTiers
+        Multitracker.UpdateInput()
+        Multitracker.Show()
+    End Sub
+
+    Private Sub CheckMultitTrackerTiers()
+        For Each TierToCheck As EAD.Torrent.TorrentList In Multitracker.MultiTrackerTiers.Value
+            For Each AnnounceToCheck As EAD.Torrent.TorrentString In TierToCheck.Value
+                If AnnounceToCheck.Value = Trim(AnnounceURL.Text) Then Exit Sub
+            Next
+        Next
+        Dim AddAnnounce As New EAD.Torrent.TorrentString
+        AddAnnounce.Value = Trim(AnnounceURL.Text)
+        Dim NewTier As New EAD.Torrent.TorrentList
+        NewTier.Value.Add(AddAnnounce)
+        Multitracker.MultiTrackerTiers.Value.Add(NewTier)
     End Sub
 End Class

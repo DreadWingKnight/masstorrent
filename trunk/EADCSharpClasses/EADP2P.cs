@@ -25,12 +25,16 @@ namespace EAD
 			private string SHA1Base32Hash;
 			private string TigerTreeRootRawHash;
 			private string TigerTreeBase32Hash;
+			private string BTInfoRaw;
+			private string BTInfoBase32;
 			private string LinkedFilename;
 			private long LinkedFileSize;
 			private const string MagnetPrefix = "magnet:?";
 			private const string MagnetSHA1Prefix = "xt=urn:sha1:";
+			private const string MagnetTigerPrefix = "xt=urn:tree:tiger:";
 			private const string MagnetBitPrintPrefix = "xt=urn:bitprint:";
-			private const string MagnetED2KPrefix = "xt=urn:ed2khash:";
+			private const string MagnetED2KPrefix = "xt=urn:ed2k:";
+			private const string MagnetBTIHPrefix = "xt=urn:btih:";
 			private const string ED2KPrefix = "ed2k://|file|";
 			private EAD.Conversion.HashChanger convertme = new EAD.Conversion.HashChanger();
 			// Hexadecimal Hash Value Inputs
@@ -85,6 +89,24 @@ namespace EAD
 					return convertme.hexhash;
 				}
 			}
+			// BTIH
+			public string BTIHHex
+			{
+				set
+				{
+					convertme = new EAD.Conversion.HashChanger();
+					convertme.hexhash = value;
+					BTInfoRaw = convertme.rawhash;
+					BTInfoBase32 = convertme.base32;
+				}
+				get
+				{
+					convertme = new EAD.Conversion.HashChanger();
+					convertme.rawhash = BTInfoRaw;
+					return convertme.hexhash;
+				}
+			}
+
 			// Raw Hash value Inputs
 			// SHA1
 			public string SHA1Raw
@@ -126,6 +148,20 @@ namespace EAD
 				get
 				{
 					return ED2KRawHash;
+				}
+			}
+			public string BTInfoHashRaw
+			{
+				set
+				{
+					BTInfoRaw = value;
+					convertme = new EAD.Conversion.HashChanger();
+					convertme.rawhash = value;
+					BTInfoBase32 = convertme.base32;
+				}
+				get
+				{
+					return BTInfoRaw;
 				}
 			}
 
@@ -178,6 +214,25 @@ namespace EAD
 					return convertme.bytehash;
 				}
 			}
+			// BTInfo
+			public byte[] BTInfoBytes
+			{
+				set
+				{
+					convertme = new EAD.Conversion.HashChanger();
+					convertme.bytehash = value;
+					BTInfoRaw = convertme.rawhash;
+					BTInfoBase32 = convertme.base32;
+				}
+				get
+				{
+					convertme = new EAD.Conversion.HashChanger();
+					convertme.rawhash = BTInfoRaw;
+					return convertme.bytehash;
+				}
+			}
+
+
 			// Base 32 Output
 			// SHA1
 			public string SHA1Hash
@@ -203,6 +258,19 @@ namespace EAD
 				{
 					TigerTreeBase32Hash = value;
 					TigerTreeRootRawHash = null;
+				}
+			}
+			// BTIH
+			public string BTIH
+			{
+				get
+				{
+					return BTInfoBase32;
+				}
+				set
+				{
+					BTInfoBase32 = value;
+					BTInfoRaw = null;
 				}
 			}
 
@@ -231,74 +299,275 @@ namespace EAD
 					LinkedFileSize = value;
 				}
 			}
+			public string MagnetBitPrintContent
+			{
+				get
+				{
+					if (TigerTreeBase32Hash != "" && SHA1Base32Hash != "")
+						return MagnetBitPrintPrefix + SHA1Base32Hash + "." + TigerTreeBase32Hash;
+					else
+						return "";
+				}
+			}
+
+			public string MagnetSHA1Content
+			{
+				get
+				{
+					if (SHA1Base32Hash != "")
+						return MagnetSHA1Prefix + SHA1Base32Hash;
+					else
+						return "";
+				}
+			}
+
+			public string MagnetED2KContent
+			{
+				get
+				{
+					convertme = new EAD.Conversion.HashChanger();
+					convertme.rawhash = ED2KRawHash;
+					if (convertme.rawhash != "")
+						return MagnetED2KPrefix + convertme.hexhash;
+					else
+						return "";
+				}
+			}
+
+			public string MagnetTigerTreeContent
+			{
+				get
+				{
+					if (TigerTreeBase32Hash != "")
+						return MagnetTigerPrefix + TigerTreeBase32Hash;
+					else
+						return "";
+				}
+			}
+
+			public string MagnetBTIHContent
+			{
+				get
+				{
+					if (BTInfoBase32 != "")
+						return MagnetBTIHPrefix + BTInfoBase32;
+					else
+						return "";
+				}
+			}
+
+			public string MagnetFull
+			{
+				get
+				{
+					if (MagnetBTIHContent !="" && MagnetBitPrintContent != "" && MagnetED2KContent != "" && LinkedFilename != "")
+					{
+						if (LinkedFileSize > 0)
+							return MagnetPrefix + MagnetBitPrintContent + "&" + MagnetED2KContent + "&" + MagnetBTIHContent + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename) + "&xl=" + LinkedFileSize.ToString();
+						else
+							return MagnetPrefix + MagnetBitPrintContent + "&" + MagnetED2KContent + "&" + MagnetBTIHContent + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename);
+					}
+					else
+						return "";
+				}
+			}
+
+
+			public string MagnetTigerBTIH
+			{
+				get
+				{
+					if (MagnetTigerTreeContent != "" && MagnetBTIHContent != "" && LinkedFilename != "")
+					{
+						if (LinkedFileSize > 0)
+							return MagnetPrefix + MagnetTigerTreeContent + "&" + MagnetBTIHContent + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename)+ "&xl=" + LinkedFileSize.ToString();
+						else
+							return MagnetPrefix + MagnetTigerTreeContent + "&" + MagnetBTIHContent + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename);
+					}
+					else
+						return "";
+				}
+			}
+
+			public string MagnetTigerED2K
+			{
+				get
+				{
+					if (MagnetTigerTreeContent != "" && MagnetED2KContent != "" && LinkedFilename != "")
+					{
+						if (LinkedFileSize > 0)
+							return MagnetPrefix + MagnetTigerTreeContent + "&" + MagnetED2KContent + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename) + "&xl=" + LinkedFileSize.ToString();
+						else
+							return MagnetPrefix + MagnetTigerTreeContent + "&" + MagnetED2KContent + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename);
+					}
+					else
+						return "";
+				}
+			}
+
+			public string MagnetTigerED2KBTIH
+			{
+				get
+				{
+					if (MagnetTigerTreeContent != "" && MagnetED2KContent != "" && MagnetBTIHContent != "" && LinkedFilename != "")
+					{
+						if (LinkedFileSize > 0)
+							return MagnetPrefix + MagnetTigerTreeContent + "&" + MagnetED2KContent + "&" + MagnetBTIHContent + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename) + "&xl=" + LinkedFileSize.ToString();
+						else
+							return MagnetPrefix + MagnetTigerTreeContent + "&" + MagnetED2KContent + "&" + MagnetBTIHContent + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename);
+					}
+					else
+						return "";
+				}
+			}
+
+
 			public string MagnetBitPrintHybrid
 			{
 				get
 				{
-					EAD.Conversion.HashChanger TigerConvert = new EAD.Conversion.HashChanger();
-					TigerConvert.rawhash = TigerTreeRootRawHash;
-					EAD.Conversion.HashChanger SHA1Convert = new EAD.Conversion.HashChanger();
-					SHA1Convert.rawhash = SHA1RawHash;
-					EAD.Conversion.HashChanger ED2KConvert = new EAD.Conversion.HashChanger();
-					ED2KConvert.rawhash = ED2KRawHash;
-                    if (ED2KRawHash != "" && TigerConvert.base32 != "" && SHA1Convert.base32 != "" && LinkedFilename != "")
-						return MagnetPrefix + MagnetBitPrintPrefix + SHA1Convert.base32 + "." + TigerConvert.base32 + "&" + MagnetED2KPrefix + ED2KConvert.hexhash + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename);
+					if (MagnetBitPrintContent !="" && MagnetED2KContent != "" && LinkedFilename != "")
+					{
+						if (LinkedFileSize > 0 )
+							return MagnetPrefix + MagnetBitPrintContent + "&" + MagnetED2KContent + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename) + "&xl=" + LinkedFileSize.ToString();
+						else
+							return MagnetPrefix + MagnetBitPrintContent + "&" + MagnetED2KContent + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename);
+					}
 					else
 						return "";
 				}
 			}
+
 			public string MagnetSHA1Hybrid
 			{
 				get
 				{
-					EAD.Conversion.HashChanger ED2KConvert = new EAD.Conversion.HashChanger();
-					ED2KConvert.rawhash = ED2KRawHash;
-					EAD.Conversion.HashChanger SHA1Convert = new EAD.Conversion.HashChanger();
-					SHA1Convert.rawhash = SHA1RawHash;
-					if (ED2KConvert.hexhash != "" && SHA1Convert.base32 != "" && LinkedFilename != "")
-						return MagnetPrefix + MagnetSHA1Prefix + SHA1Convert.base32 + "&" +  MagnetED2KPrefix + ED2KConvert.hexhash + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename);
+					if (MagnetED2KContent != "" && MagnetSHA1Content != "" && LinkedFilename != "")
+					{
+						if (LinkedFileSize > 0)
+							return MagnetPrefix + MagnetSHA1Content + "&" +  MagnetED2KContent + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename) + "&xl=" + LinkedFileSize.ToString();
+						else
+							return MagnetPrefix + MagnetSHA1Content + "&" +  MagnetED2KContent + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename);
+					}
 					else
 						return "";
 				}
 			}
+
+			public string MagnetBitPrintBTIH
+			{
+				get
+				{
+					if (MagnetBitPrintContent != "" && MagnetBTIHContent != "" && LinkedFilename != "")
+					{
+						if (LinkedFileSize > 0)
+							return MagnetPrefix + MagnetBitPrintContent + "&" + MagnetBTIHContent + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename) + "&xl=" + LinkedFileSize.ToString();
+						else
+							return MagnetPrefix + MagnetBitPrintContent + "&" + MagnetBTIHContent + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename);
+					}
+					else
+						return "";
+				}
+			}
+
 			public string MagnetBitPrint
 			{
 				get
 				{
-					EAD.Conversion.HashChanger TigerConvert = new EAD.Conversion.HashChanger();
-					TigerConvert.rawhash = TigerTreeRootRawHash;
-					EAD.Conversion.HashChanger SHA1Convert = new EAD.Conversion.HashChanger();
-					SHA1Convert.rawhash = SHA1RawHash;
-					if (TigerConvert.base32 != "" && SHA1Convert.base32 != "" && LinkedFilename != "")
-						return MagnetPrefix + MagnetBitPrintPrefix + SHA1Convert.base32 + "." + TigerConvert.base32 + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename);
+					if (MagnetBitPrintContent != "" && LinkedFilename != "")
+					{
+						if (LinkedFileSize > 0)
+							return MagnetPrefix + MagnetBitPrintContent + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename) + "&xl=" + LinkedFileSize.ToString();
+						else
+							return MagnetPrefix + MagnetBitPrintContent + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename);
+					}
 					else
 						return "";
 				}
 			}
+
+			public string MagnetSHA1BTIH
+			{
+				get
+				{
+					if (MagnetSHA1Content != "" && MagnetBTIHContent != "" && LinkedFilename != "")
+					{
+						if (LinkedFileSize > 0)
+							return MagnetPrefix + MagnetSHA1Content + "&" + MagnetBTIHContent + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename) + "&xl=" + LinkedFileSize.ToString();
+						else
+							return MagnetPrefix + MagnetSHA1Content + "&" + MagnetBTIHContent + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename);
+					}
+					else
+						return "";
+				}
+			}
+
 			public string MagnetSHA1
 			{
 				get
 				{
-					EAD.Conversion.HashChanger SHA1Convert = new EAD.Conversion.HashChanger();
-					SHA1Convert.rawhash = SHA1RawHash;
-					if (SHA1Convert.base32 != "" && LinkedFilename != "")
-                        return MagnetPrefix + MagnetSHA1Prefix + SHA1Convert.base32 + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename);
+					if (MagnetSHA1Content != "" && LinkedFilename != "")
+					{
+						if (LinkedFileSize > 0)
+							return MagnetPrefix + MagnetSHA1Content + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename) + "&xl=" + LinkedFileSize.ToString();
+						else
+							return MagnetPrefix + MagnetSHA1Content + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename);
+					}
 					else
 						return "";
 				}
 			}
+
+			public string MagnetBTIH
+			{
+				get
+				{
+					if (MagnetBTIHContent != "" && LinkedFilename != "")
+						return MagnetPrefix + MagnetBTIHContent + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename);
+					else
+						return "";
+				}
+			}
+
 			public string MagnetED2K
 			{
 				get
 				{
-					EAD.Conversion.HashChanger ED2KConvert = new EAD.Conversion.HashChanger();
-					ED2KConvert.rawhash = ED2KRawHash;
-					if (ED2KConvert.hexhash != "" && LinkedFilename != "")
-                        return MagnetPrefix + MagnetED2KPrefix + ED2KConvert.hexhash + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename);
+					if (MagnetED2KContent != "" && LinkedFilename != "")
+					{
+						if (LinkedFileSize > 0)
+							return MagnetPrefix + MagnetED2KContent + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename) + "&xl=" + LinkedFileSize.ToString();
+						else
+							return MagnetPrefix + MagnetED2KContent + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename);
+					}
 					else
 						return "";
 				}
 			}
+
+			public string MagnetED2KBTIH
+			{
+				get
+				{
+					if (MagnetED2KContent != "" && MagnetBTIHContent != "" && LinkedFilename != "")
+						return MagnetPrefix + MagnetED2KContent + "&" + MagnetBTIHContent + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename);
+					else
+						return "";
+				}
+			}
+
+			public string MagnetSHA1ED2KBTIH
+			{
+				get
+				{
+					if (MagnetSHA1Content != "" && MagnetED2KContent != "" && MagnetBTIHContent != "" && LinkedFilename != "")
+						return MagnetPrefix + MagnetSHA1Content + "&" + MagnetED2KContent + "&" + MagnetBTIHContent + "&dn=" + System.Web.HttpUtility.UrlEncode(LinkedFilename);
+					else
+						return "";
+				}
+			}
+
+
 			public string ClassicED2KLink
 			{
 				get
