@@ -9,7 +9,7 @@
             <Settings
                 ApplicationIcon = ""
                 AssemblyKeyContainerName = ""
-                AssemblyName = "BEncode_Merge"
+                AssemblyName = "BencodeMerge"
                 AssemblyOriginatorKeyFile = ""
                 AssemblyOriginatorKeyMode = "None"
                 DefaultClientScript = "JScript"
@@ -20,8 +20,8 @@
                 OptionCompare = "Binary"
                 OptionExplicit = "On"
                 OptionStrict = "Off"
-                RootNamespace = "BEncode_Merge"
-                StartupObject = "BEncode_Merge.BEncodeMerge"
+                RootNamespace = "BencodeMerge"
+                StartupObject = "BencodeMerge.BEncodeMerge"
             >
                 <Config
                     Name = "Debug"
@@ -101,13 +101,13 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "BEncode_Merge.vb"
+                    RelPath = "BencodeMerge.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "BEncode_Merge.resx"
-                    DependentUpon = "BEncode_Merge.vb"
+                    RelPath = "BencodeMerge.resx"
+                    DependentUpon = "BencodeMerge.vb"
                     BuildAction = "EmbeddedResource"
                 />
             </Include>
