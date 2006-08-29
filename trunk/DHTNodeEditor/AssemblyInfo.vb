@@ -8,17 +8,16 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("VB.NetTorrentGen")> 
-<Assembly: AssemblyDescription("VB.Net Torrent Generator")> 
+<Assembly: AssemblyTitle("DHT Node Editor")> 
+<Assembly: AssemblyDescription("Adjusts DHT Nodes in a .torrent")> 
 <Assembly: AssemblyCompany("")> 
 <Assembly: AssemblyProduct("")> 
 <Assembly: AssemblyCopyright("2004-2005 Harold Feit")> 
 <Assembly: AssemblyTrademark("")> 
 <Assembly: CLSCompliant(True)> 
-<Assembly: Resources.NeutralResourcesLanguageAttribute("en-US")> 
 
 'The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("E56CBE7E-0E54-4B79-B032-9D520BC91839")> 
+<Assembly: Guid("0FAB2556-B174-4CD8-9FE5-6A0C073B948F")> 
 
 ' Version information for an assembly consists of the following four values:
 '
@@ -30,4 +29,4 @@ Imports System.Runtime.InteropServices
 ' You can specify all the values or you can default the Build and Revision Numbers 
 ' by using the '*' as shown below:
 
-<Assembly: AssemblyVersion("1.3.0.0")> 
+<Assembly: AssemblyVersion("0.9.0.*")> 

@@ -37,6 +37,7 @@ Public Class PrivateNoDHT
     Friend WithEvents LeaveNow As System.Windows.Forms.Button
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents TorrentToTrim As System.Windows.Forms.OpenFileDialog
+    Friend WithEvents RemoveFlag As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(PrivateNoDHT))
         Me.BrowseToTrim = New System.Windows.Forms.Button
@@ -45,6 +46,7 @@ Public Class PrivateNoDHT
         Me.LeaveNow = New System.Windows.Forms.Button
         Me.Label1 = New System.Windows.Forms.Label
         Me.TorrentToTrim = New System.Windows.Forms.OpenFileDialog
+        Me.RemoveFlag = New System.Windows.Forms.Button
         Me.SuspendLayout()
         '
         'BrowseToTrim
@@ -73,9 +75,9 @@ Public Class PrivateNoDHT
         '
         'LeaveNow
         '
-        Me.LeaveNow.Location = New System.Drawing.Point(152, 64)
+        Me.LeaveNow.Location = New System.Drawing.Point(0, 88)
         Me.LeaveNow.Name = "LeaveNow"
-        Me.LeaveNow.Size = New System.Drawing.Size(136, 24)
+        Me.LeaveNow.Size = New System.Drawing.Size(288, 24)
         Me.LeaveNow.TabIndex = 3
         Me.LeaveNow.Text = "Exit"
         '
@@ -91,11 +93,20 @@ Public Class PrivateNoDHT
         '
         Me.TorrentToTrim.Filter = "Torrent Files|*.torrent"
         '
+        'RemoveFlag
+        '
+        Me.RemoveFlag.Location = New System.Drawing.Point(152, 64)
+        Me.RemoveFlag.Name = "RemoveFlag"
+        Me.RemoveFlag.Size = New System.Drawing.Size(136, 24)
+        Me.RemoveFlag.TabIndex = 5
+        Me.RemoveFlag.Text = "Remove Private Flag"
+        '
         'PrivateNoDHT
         '
         Me.AcceptButton = Me.TrimTorrentNow
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(288, 93)
+        Me.ClientSize = New System.Drawing.Size(288, 114)
+        Me.Controls.Add(Me.RemoveFlag)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.LeaveNow)
         Me.Controls.Add(Me.TrimTorrentNow)
@@ -167,7 +178,7 @@ Public Class PrivateNoDHT
         FileOpen(TorrentFileload, TorrentFileToTrim.Text, OpenMode.Binary, OpenAccess.ReadWrite, OpenShare.LockReadWrite)
         FilePut(TorrentFileload, fulltorrent)
         FileClose(TorrentFileload)
-        MsgBox("Torrent File announce URL has been trimmed")
+        MsgBox("Torrent File Private Flag adjusted")
     End Sub
 
     Private Sub TrimTorrents_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -175,5 +186,52 @@ Public Class PrivateNoDHT
         If arguments.GetLength(0) > 1 Then
             TorrentFileToTrim.Text = arguments(1)
         End If
+    End Sub
+
+    Private Sub RemoveFlag_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RemoveFlag.Click
+        If Not System.IO.File.Exists(TorrentFileToTrim.Text) Then
+            MsgBox("ERROR: Filename is not a valid file", , "WHOOPSIE!")
+            Exit Sub
+        End If
+        'Dim MetaDataHolder As New TorrentMetaData
+        Dim TorrentData As New TorrentDictionary
+        Dim TorrentInfo As New TorrentDictionary
+        Dim TorrentFileload As Integer
+        Dim fulltorrent As String
+        Dim intermediarytorrentdata As String
+
+        TorrentFileload = FreeFile()
+        FileOpen(TorrentFileload, TorrentFileToTrim.Text, OpenMode.Binary, OpenAccess.Default)
+        intermediarytorrentdata = Space(FileLen(TorrentFileToTrim.Text))
+        FileGet(TorrentFileload, intermediarytorrentdata)
+        FileClose(TorrentFileload)
+        TorrentData.Parse(intermediarytorrentdata)
+        TorrentInfo = TorrentData.Value("info")
+        If TorrentInfo.Contains("private") Then TorrentInfo.Remove("private") Else GoTo NoFlag
+        'MetaDataHolder.Torrent = TorrentData
+        'MetaDataHolder.Announce = Trim(MetaDataHolder.Announce)
+        'If TorrentData.Contains("announce-list") Then
+        'Dim MultiTracker As New TorrentList
+        'MultiTracker = TorrentData.Value("announce-list")
+        'For Each MultiTrackerTier As TorrentList In MultiTracker.Value
+        'For Each MultiTrackerAnnounce As TorrentString In MultiTrackerTier.Value
+        'MultiTrackerAnnounce.Value = Trim(MultiTrackerAnnounce.Value)
+        'Next
+        'Next
+        'End If
+        If TorrentData.Contains("resume") Then TorrentData.Remove("resume")
+        If TorrentData.Contains("tracker_cache") Then TorrentData.Remove("tracker_cache")
+        If TorrentData.Contains("torrent filename") Then TorrentData.Remove("torrent filename")
+        fulltorrent = TorrentData.Bencoded
+        Kill(TorrentFileToTrim.Text)
+        TorrentFileload = FreeFile()
+        FileOpen(TorrentFileload, TorrentFileToTrim.Text, OpenMode.Binary, OpenAccess.ReadWrite, OpenShare.LockReadWrite)
+        FilePut(TorrentFileload, fulltorrent)
+        FileClose(TorrentFileload)
+        MsgBox("Torrent File Private Flag adjusted")
+        Exit Sub
+NoFlag:
+        MsgBox("Torrent File did not contain a private flag")
+        Exit Sub
     End Sub
 End Class

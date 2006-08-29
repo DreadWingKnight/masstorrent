@@ -78,10 +78,18 @@ namespace EAD
 						hexhashvalue = "";
 						rawhashvalue = "";
 						StringBuilder buff = new StringBuilder();
-						rawhashvalue = System.Text.Encoding.Default.GetString(bytehashvalue);
+						/*for ( int index = 0; index >= bytehashvalue.Length ; index++ )
+						{
+							rawhashvalue = rawhashvalue + System.Text.Encoding.Default.GetString(bytehashvalue,index,1);
+						}
+						*/
+						int byteindex;
+						byteindex = 0;
 						foreach (byte HashByte in bytehashvalue)
 						{
+							rawhashvalue = rawhashvalue + System.Text.Encoding.Default.GetString(bytehashvalue,byteindex,1);
 							buff.AppendFormat("{0:x2}", HashByte);
+							byteindex++;
 						}
 						hexhashvalue = buff.ToString();
 						base32value = EAD.Conversion.Base32.ToBase32String(bytehashvalue);
@@ -98,7 +106,7 @@ namespace EAD
 					set
 					{
 						rawhashvalue = value;
-						bytehashvalue = System.Text.Encoding.Default.GetBytes(value);;
+						bytehashvalue = System.Text.Encoding.Default.GetBytes(value);
 						StringBuilder buff = new StringBuilder();
 						foreach (byte HashByte in bytehashvalue)
 						{
