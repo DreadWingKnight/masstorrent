@@ -567,10 +567,12 @@ Public Class TorrentBuild
                 advanced = md4.ComputeHash(datatohash)
                 Erase datatohash
                 ed2kcompound = ""
+                Dim valueindex As Integer = 0
                 For Each value As Byte In advanced
-                    ed2kcompound = ed2kcompound + Chr(value)
+                    ed2kcompound = ed2kcompound + System.Text.Encoding.Default.GetString(advanced, valueindex, 1)
                     ED2KCompund(currentpos) = value
                     currentpos = currentpos + 1
+                    valueindex = valueindex + 1
                 Next
                 Erase advanced
                 FileOffsetToHash = FileOffsetToHash + numbytes
@@ -586,6 +588,7 @@ Public Class TorrentBuild
             Convertme.bytehash = fullhash
             binaryvalue = Convertme.rawhash
             plaintext = Convertme.hexhash
+            GC.Collect()
         Else
             Dim LoadData(EAD.VisualBasic.Constants.ED2KBlockSize) As Byte
             numbytes = FileHandling.Read(LoadData, 0, EAD.VisualBasic.Constants.ED2KBlockSize)
@@ -601,6 +604,7 @@ Public Class TorrentBuild
             plaintext = Convertme.hexhash
             Erase datatohash
             HashProgress.Value = 100
+            GC.Collect()
         End If
         FileHandling.Close()
     End Sub
@@ -616,6 +620,7 @@ Public Class TorrentBuild
                 If LCase(Microsoft.VisualBasic.Right(checkname, Len(BlackListedFile.Value))) = LCase(BlackListedFile.Value) Then IsFileCleared = False
             Next
         End If
+        GC.Collect()
     End Function
 
     Public Sub MakeOneTorrentFromFolder()
@@ -637,7 +642,7 @@ Public Class TorrentBuild
                 Dim FilePath As New TorrentList
                 Dim FilePathArray As New ArrayList
                 Dim FilePathName As New TorrentString
-                
+
                 FilesSize.Value = FileLen(FolderFileName)
                 TotalSize = TotalSize + FileLen(FolderFileName)
                 If AutomaticPieceSize.Checked Then calculatedtotal = calculatedtotal + FilesSize.Value
@@ -652,6 +657,7 @@ Public Class TorrentBuild
                 Dim buff As StringBuilder = New StringBuilder
                 Dim Convertme As EAD.Conversion.HashChanger = New EAD.Conversion.HashChanger
                 Dim hashByte As Byte
+                Dim valueindex As Integer
 
                 If FilesSize.Value <= 4707319808 Then
                     If IncludeTiger.Checked Then
@@ -660,8 +666,10 @@ Public Class TorrentBuild
                         Dim TigerRawHash As String
                         hash = TigerHash.GetTTH_Value(FolderFileName)
                         System.Windows.Forms.Application.DoEvents()
+                        valueindex = 0
                         For Each hashByte In hash
-                            TigerRawHash = TigerRawHash + Chr(hashByte)
+                            TigerRawHash = TigerRawHash + System.Text.Encoding.Default.GetString(hash, valueindex, 1)
+                            valueindex = valueindex + 1
                         Next
                         FileTiger.Value = TigerRawHash
                         TigerRawHash = ""
@@ -669,6 +677,7 @@ Public Class TorrentBuild
                         OptionalHashProgress.Value = OptionalHashProgress.Value + 1
                         FileInfo.Add("tiger", FileTiger)
                     End If
+                    GC.Collect()
                 Else
                     OptionalHashProgress.Value = OptionalHashProgress.Value + 1
                 End If
@@ -681,9 +690,10 @@ Public Class TorrentBuild
                     filecheck.Close()
                     System.Windows.Forms.Application.DoEvents()
                     hash = sha1.Hash
+                    valueindex = 0
                     For Each hashByte In hash
                         buff.AppendFormat("{0:x2}", hashByte)
-                        sha1raw = sha1raw + Chr(hashByte)
+                        sha1raw = sha1raw + System.Text.Encoding.Default.GetString(hash, valueindex, 1)
                     Next
                     filesha1.Value = sha1raw
                     buff.Remove(0, buff.Length)
@@ -691,6 +701,7 @@ Public Class TorrentBuild
                     Erase hash
                     OptionalHashProgress.Value = OptionalHashProgress.Value + 1
                     FileInfo.Add("sha1", filesha1)
+                    GC.Collect()
                 End If
                 If IncludeMD5.Checked Then
                     Dim filemd5 As New TorrentString
@@ -708,6 +719,7 @@ Public Class TorrentBuild
                     Erase hash
                     OptionalHashProgress.Value = OptionalHashProgress.Value + 1
                     FileInfo.Add("md5sum", filemd5)
+                    GC.Collect()
                 End If
                 If IncludeCRC32.Checked Then
                     Dim FileCRC32 As New TorrentString
@@ -720,6 +732,7 @@ Public Class TorrentBuild
                     FileCRC32.Value = String.Format("{0:X8}", crc)
                     OptionalHashProgress.Value = OptionalHashProgress.Value + 1
                     FileInfo.Add("crc32", FileCRC32)
+                    GC.Collect()
                 End If
                 If IncludeED2K.Checked Then
                     Dim fileed2k As New TorrentString
@@ -729,6 +742,7 @@ Public Class TorrentBuild
                     OptionalHashProgress.Value = OptionalHashProgress.Value + 1
                     fileed2k.Value = ed2khashvalue
                     FileInfo.Add("ed2k", fileed2k)
+                    GC.Collect()
                 End If
                 TorrentFilesArray.Add(FileInfo)
             Else
@@ -799,11 +813,12 @@ nofilesleft:
             Erase DataToHash
             hashdata = sha1.ComputeHash(RehashData)
             For dataindex As Integer = 0 To 19
-                hashdatastring = hashdatastring + Chr(hashdata(dataindex))
+                hashdatastring = hashdatastring + System.Text.Encoding.Default.GetString(hashdata, dataindex, 1)
             Next
             Erase hashdata
             currentsize = currentsize + PieceShortSet
             PieceShortSet = 0
+            GC.Collect()
         Loop Until currentsize >= TotalSize
         FileHandling.Close()
         If GenerateVerbose = True Then MsgBox("Size of files hashed: " + CStr(currentsize) + " Size of files compared: " + CStr(TotalSize) + Chr(10) + "Now Generating .torrent file")
@@ -844,7 +859,7 @@ nofilesleft:
             TorrentMeta.Add("comment", CommentOfTorrent)
         End If
 
-        TorrentMeta.Add("announce", torrentannounce)
+        If Not AnnounceURL.Text = "" Then TorrentMeta.Add("announce", torrentannounce)
         If PrivateTorrent.Checked Then
             Dim TorrentIsPrivate As New TorrentNumber
             TorrentIsPrivate.Value = 1
@@ -863,6 +878,7 @@ nofilesleft:
         FileOpen(torrentout, torrentfilegenerate, OpenMode.Binary, OpenAccess.ReadWrite, OpenShare.LockReadWrite)
         FilePut(torrentout, TorrentMeta.Bencoded)
         FileClose(torrentout)
+        GC.Collect()
 
         If MakeExternals.Checked Then
             Dim SFVtoMake As String
@@ -920,6 +936,7 @@ nofilesleft:
                     ED2KtoMake = ED2KtoMake + LinkGenerator.ClassicED2KLink + Chr(13) + Chr(10)
                     ED2KtoMake = ED2KtoMake + FileNameForCheck.Value + " " + LinkGenerator.ED2KHex + Chr(13) + Chr(10)
                 End If
+                GC.Collect()
             Next
             If IncludeMD5.Checked Then
                 If File.Exists(md5filename) Then Kill(md5filename)
@@ -957,6 +974,7 @@ nofilesleft:
                 FileClose(sfvout)
             End If
         End If
+        GC.Collect()
         'FileHandling.Close()
     End Sub
 
@@ -1046,12 +1064,13 @@ nofilesleft:
             Next
             hashdata = sha1.ComputeHash(ReHashData)
             For dataindex As Integer = 0 To 19
-                hashes = hashes + Chr(hashdata(dataindex))
+                hashes = hashes + System.Text.Encoding.Default.GetString(hashdata, dataindex, 1)
             Next
             fileoffsettoscan = fileoffsettoscan + piecesizetouse
             Erase ReHashData
             Erase DataToHash
             Thread.Sleep(10)
+            GC.Collect()
         Loop
         TorrentProgress.Value = 100
         FileHandling.Close()
@@ -1114,7 +1133,7 @@ nofilesleft:
             torrentinfo.Value("private") = TorrentIsPrivate
         End If
         torrentroot.Add("info", torrentinfo)
-        torrentroot.Add("announce", torrentannounce)
+        If Not AnnounceURL.Text = "" Then torrentroot.Add("announce", torrentannounce)
         torrentroot.Add("encoding", torrentencoding)
         Dim torrentout As Integer = FreeFile()
         Dim torrentfilegenerate As String = NameOfFile + ".torrent"
@@ -1161,7 +1180,7 @@ nofilesleft:
                 FileClose(ed2kmake)
             End If
         End If
-
+        GC.Collect()
     End Sub
 
     Private Sub BuildTorrentNow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BuildTorrentNow.Click
@@ -1169,8 +1188,12 @@ nofilesleft:
         OptionalHashProgress.Value = 0
         AnnounceURL.Text = Trim(AnnounceURL.Text)
         If IsValidAnnounce(AnnounceURL.Text) = InvalidAnnounce Then
-            MsgBox("AnnounceURL is invalid", MsgBoxStyle.Exclamation, "Error")
-            GoTo unlock
+            If Not AnnounceURL.Text = "" Then
+                MsgBox("AnnounceURL is invalid", MsgBoxStyle.Exclamation, "Error")
+                GoTo unlock
+            Else
+                If MsgBox("Announce URL is blank, continue anyway", MsgBoxStyle.YesNo, "Warning") = MsgBoxResult.No Then GoTo unlock
+            End If
         End If
         If DelayMessages Then
             Dim warninglevel As Integer
@@ -1219,6 +1242,7 @@ unlock:
         BuildTorrentNow.Enabled = True
         ExitWithSave.Enabled = True
         ExitWithoutSave.Enabled = True
+        GC.Collect()
     End Sub
 
     Private Sub PieceSize_LostFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles PieceSize.LostFocus
@@ -1344,6 +1368,7 @@ unlock:
             PieceSize.Text = CStr(ConfigPieceSize.Value)
         End If
         AutomaticPieceSize_CheckedChanged(sender, e)
+        GC.Collect()
     End Sub
 
     Private Sub ExitWithSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExitWithSave.Click
@@ -1439,6 +1464,7 @@ unlock:
         FileOpen(savesettings, LocalPath + "tgen.configure", OpenMode.Binary, OpenAccess.ReadWrite, OpenShare.LockReadWrite)
         FilePut(savesettings, SaveData.Bencoded())
         FileClose(savesettings)
+        GC.Collect()
     End Sub
 
     Private Sub BlacklistingScreen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BlacklistingScreen.Click
@@ -1470,5 +1496,6 @@ unlock:
         Dim NewTier As New EAD.Torrent.TorrentList
         NewTier.Value.Add(AddAnnounce)
         Multitracker.MultiTrackerTiers.Value.Add(NewTier)
+        GC.Collect()
     End Sub
 End Class

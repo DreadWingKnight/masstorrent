@@ -586,7 +586,7 @@ Public Class SourceProcessor
                 sftorespond.Add(mirrortolist.Clone)
             Next
             Dim sourcecount As Integer = 0
-            Do Until sourcestorespond.Count >= 5
+            Do Until sourcestorespond.Count > 5
                 sourcecount = sftorespond.Count
                 If sourcecount = 0 Then Exit Do
                 Randomize(sourcecount / (Now.Second + Now.Minute))

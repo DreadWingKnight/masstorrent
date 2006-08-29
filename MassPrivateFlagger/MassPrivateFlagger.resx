@@ -97,40 +97,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BrowseToTrim.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="FolderToProcess.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
+  </data>
+  <data name="FolderToProcess.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </data>
-  <data name="BrowseToTrim.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
-  <data name="BrowseToTrim.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
-  <data name="TorrentFileToTrim.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
-  <data name="TorrentFileToTrim.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
-  <data name="TorrentFileToTrim.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </data>
-  <data name="TrimTorrentNow.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </data>
-  <data name="TrimTorrentNow.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
-  <data name="TrimTorrentNow.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
-  <data name="LeaveNow.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </data>
-  <data name="LeaveNow.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
-  <data name="LeaveNow.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="FolderToProcess.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="Label1.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -142,22 +115,31 @@
   <data name="Label1.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="TorrentToTrim.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
-  <data name="TorrentToTrim.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
-  <data name="TorrentToTrim.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </data>
-  <data name="RemoveFlag.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="ProcessNow.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </data>
-  <data name="RemoveFlag.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="ProcessNow.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="RemoveFlag.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="ProcessNow.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
+  </data>
+  <data name="BrowseForFolder.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </data>
+  <data name="BrowseForFolder.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
+  </data>
+  <data name="BrowseForFolder.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
+  </data>
+  <data name="FolderBrowse.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
+  </data>
+  <data name="FolderBrowse.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </data>
+  <data name="FolderBrowse.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="$this.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -184,38 +166,10 @@
   <data name="$this.SnapToGrid" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </data>
-  <data name="$this.Name">
-    <value>PrivateNoDHT</value>
-  </data>
   <data name="$this.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        AAABAAEAEBAAAAAAAABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAB
-        AAAAAAAAAQ4BAAASAAAAGAAAAigAAAEsAAAKKAgABDIDAAQzAwAIOAYADzQOAAVIAgACWQAACVsHAApp
-        BgAKbAYACm4GAAZzAwAJcQUACnAGAAR4AAAFmwAABp4BAA2XCQAXlxMABaUAAAWuAAAPpwoAD6oKAA+t
-        CgAGtQAADbQHAAy2BgAGuQAAC7sFAA+wCQAOsggAEr0MACC0GwA8vzgADcQHAAbKAAAHzgAACswDAA7D
-        CAAPwwkAEMYKABHKCgARzAoAEs0LABLOCwAH1AAACtcDAA3VBwAH2QAAD9MIABPRDAAT0gwAE9QMABTV
-        DQAU1g0AEtgLABTYDQAV2Q4AFdoOABXbDgAV3A4AFd0OABXeDgAV3w4AFsgQABjQEQAH5QAADesFABbg
-        DwAW4g8AFuMPABbkDwAW5Q8AFecOABHvCQAS7QoAE+wLABTpDQAU6wwACPQAAAj1AAAI9wAADfcFAA/0
-        BwAO9gYACPkAAAj6AAAI+wAACfoBAAv6AwAL+wMACPwAAAj9AAAJ/AEACf0BAAj+AAAK/AIAC/4CAAz5
-        BAAN+AUADv4FAA/5CAAP+ggAEPMIABH+CQAX/w8AGOsRABv/EwAf/xcAJf8dADLDLgAxzCwANcgwACn/
-        IQAp/iIALf8lADL7KwAw/ykANv8vADjlMgA26zAAOegzADj/MQA6/zMAPv83AD/8OABE/z0ARv4/AEbF
-        QgBZwlUAX9VaAGLaXgBh3V0ATPBGAEj+QQBL/kUATf5HAFH+SwBT/k0AVf9PAFf/UQBZ/1MAX/9ZAGH/
-        WwBj/10AZf9fAH/BfQBn/2EAbP9nAHD/awBy/20AdP9vAHr/dQB+/3kAgP97AIH9fACE/n8Ag8OBAIvP
-        iQCH0YQAitSIAJzamgCe3JsAkeqOAIn2hQCH/oMAi/6HAI3+iQCP/osAkfWNAJL+jgCV/5EAnf+ZAKL/
-        nwDAwMAAAAAAAKAgBQAFAAAAvrPnAHwPjACjtOcAiAAAAAAAAAAAAAAAAAAAAAIAAACAAAAAAAAAALwQ
-        jACv1EoAmMj5AAAAAAAAAAAAsBCMAAIAAACAAAAAAAAAAHRVjADs9aYAAgAAAEU6XABjb24AXEJUAElj
-        bwBzXGkAb25fAG9uZQBpY28Azau6AAAAAAAkEIwASn5KAEQQjADUzNYABQAAACgAAAD0zNYAEBCMAJrM
-        1gBkxfUAqfHnAIgAAAAAAAAAAAAAAAAAAAAwEIwAYGD7ABYAAAAAAAAAyfHnABYAAADUEIwAAQAAAAAA
-        AAAWAAAAFgAAAAEAAAAkEIwAAAAAAOQQjAAJSOkAuBDpAP///wDJ8ecARtVKAIgAAABgYPsAFgAAAIgQ
-        jAAAAAAAt7ekfmxgWFRNQkJHdqO3t7eKWGBgYGBYVE1COjEuh7emblhYYGBgWG1UTUI6MS2Yi3EoHiEr
-        YGBgVEIbJToxdIN5t7e3twIiYFgdtw9COkaNgbcISBm3BWBgJLcPQjoxkoS3CWAatwVgYCS3D01COpaQ
-        t7e3twMpYGAgtxJNTUKclrcGJg23FmBgILcSVE1CoZq3CnoYtwwpFhG3CxcdTa2et7e3twEtFLe3t7e3
-        CFSwq4iGJ3V5cUkzNjU1N0Jwr7GhnJSNgXluYFhgYGBgf6izrZ+ak416c25YWGBgYKW3qbKsnpmQhHpx
-        YFhgYIq3t7eoqqGclpCBeXFsfaS3t8ADAACAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAgAEAAMADAAA=
-</value>
+  <data name="$this.Name">
+    <value>TorrentCleaner</value>
   </data>
 </root>

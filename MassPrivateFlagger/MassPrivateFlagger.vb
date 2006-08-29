@@ -96,7 +96,7 @@ Public Class TorrentCleaner
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MaximizeBox = False
         Me.Name = "TorrentCleaner"
-        Me.Text = "Clear Announce URLs on a folder."
+        Me.Text = "Set Private Flags on a folder"
         Me.ResumeLayout(False)
 
     End Sub
@@ -117,12 +117,14 @@ Public Class TorrentCleaner
             FileGet(torrentfileload, intermediarytorrentdata)
             FileClose(torrentfileload)
             TorrentData.Parse(intermediarytorrentdata)
-            If TorrentData.Contains("announce-list") Then TorrentData.Remove("announce-list")
+            'If TorrentData.Contains("announce-list") Then TorrentData.Remove("announce-list")
             If TorrentData.Contains("resume") Then TorrentData.Remove("resume")
             If TorrentData.Contains("tracker_cache") Then TorrentData.Remove("tracker_cache")
             If TorrentData.Contains("torrent filename") Then TorrentData.Remove("torrent filename")
-            If TorrentData.Contains("announce") Then TorrentData.Remove("announce")
+            'If TorrentData.Contains("announce") Then TorrentData.Remove("announce")
             If TorrentData.Contains("azureus_properties") Then TorrentData.Remove("azureus_properties")
+            Dim TorrentPrivate As New TorrentNumber
+            TorrentPrivate.Value = 1
             'TorrentData.Value("announce") = NewAnnounce
             'TorrentData.Add("announce-list", AnnounceListTiers)
             fulltorrent = TorrentData.Bencoded()
