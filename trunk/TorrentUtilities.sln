@@ -95,7 +95,7 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "CustomMultiTrackerGUI", "Cu
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "BEncode_Merge", "BEncode_Merge\BEncode_Merge.vbproj", "{AFFEEE39-8909-4046-A1BE-DCC779BF16D9}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "BencodeMerge", "BencodeMerge\BencodeMerge.vbproj", "{AFFEEE39-8909-4046-A1BE-DCC779BF16D9}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
